@@ -150,8 +150,9 @@ function loadRegione(ctx, options, cod){
     var regione = dati_grezzi[0].denominazione_regione;
     $('#dropRegioni').html(regione);
     $('#dropRegioni').attr('href', '?codice_regione=' + cod);
-    $('#dropRegioni').removeClass('dropdown-toggle');
-    $('div[aria-labelledby="dropRegioni"]').remove();
+    // $('#dropRegioni').removeClass('dropdown-toggle');
+    // $('div[aria-labelledby="dropRegioni"]').remove();
+    $('div[aria-labelledby="dropProvince"] a[cod_reg!="'+cod+'"]').hide();
     $('#headerJumbo div h1').html("Regione: " + regione);
     options.options.title.text = "Andamento COVID in " + regione;
 
