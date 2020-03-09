@@ -17,7 +17,8 @@ window.onload = function() {
     type: 'line',
     options: {
       responsive: true,
-      title: { display: true },
+      maintainAspectRatio: false,
+      title: { display: false },
       tooltips: { mode: 'index', intersect: false },
       hover: { mode: 'nearest', intersect: true },
       scales: {
@@ -153,7 +154,7 @@ function loadRegione(ctx, options, cod){
     // $('#dropRegioni').removeClass('dropdown-toggle');
     // $('div[aria-labelledby="dropRegioni"]').remove();
     $('div[aria-labelledby="dropProvince"] a[cod_reg!="'+cod+'"]').hide();
-    $('#headerJumbo div h1').html("Regione: " + regione);
+    $('#headerJumbo div h3').html("Regione: " + regione);
     options.options.title.text = "Andamento COVID in " + regione;
 
     // IMPOSTO ETICHETTE
@@ -248,7 +249,7 @@ function loadProvincia(ctx, options, cod){
     $('#dropProvince').html(provincia);
     $('div[aria-labelledby="dropProvince"] a[cod_reg!="'+cod_reg+'"]').hide();
     // $('div[aria-labelledby="dropProvince"] a[data-cod_reg!="' + cod_reg + '"]').hide();
-    $('#headerJumbo div h1').html("Provincia: " + provincia + " (" + regione + ")");
+    $('#headerJumbo div h3').html("Provincia: " + provincia + " (" + regione + ")");
     options.options.title.text = "Andamento COVID in " + provincia + " (" + regione + ")";
 
     // IMPOSTO ETICHETTE
@@ -292,5 +293,6 @@ function loadProvincia(ctx, options, cod){
     
     $('#status').html('Genero il grafico');
     window.covidLine = new Chart(ctx, options);
+    $('#status').hide();
   });
 }
