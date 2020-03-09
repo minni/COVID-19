@@ -104,6 +104,7 @@ function loadNazionali(ctx, options){
       });
       idx = idx + 1;
     }
+    options.data.datasets[9].hidden = true;
     
     $('#status').html('Genero il grafico');
     window.covidLine = new Chart(ctx, options);
@@ -195,6 +196,7 @@ function loadRegione(ctx, options, cod){
       });
       idx = idx + 1;
     }
+    options.data.datasets[9].hidden = true;
     
     $('#status').html('Genero il grafico');
     window.covidLine = new Chart(ctx, options);
