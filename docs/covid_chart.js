@@ -10,6 +10,30 @@ window.chartColors = {
   orange: 'rgb(255, 159, 64)',
   yellow: 'rgb(255, 205, 86)',
 };
+window.popolazione = {
+  italia: 60359546,
+  '3':  10060574, // Lombardia             10.060.574
+  '12':  5879082, // Lazio                  5.879.082
+  '15':  5801692, // Campania               5.801.692
+  '19':  4999891, // Sicilia                4.999.891
+  '5':   4905854, // Veneto                 4.905.854
+  '8':   4459477, // Emilia-Romagna         4.459.477
+  '1':   4356406, // Piemonte               4.356.406
+  '16':  4029053, // Puglia                 4.029.053
+  '9':   3729641, // Toscana                3.729.641
+  '18':  1947131, // Calabria               1.947.131
+  '20':  1639591, // Sardegna               1.639.591
+  '7':   1550640, // Liguria                1.550.640
+  '11':  1525271, // Marche                 1.525.271
+  '13':  1311580, // Abruzzo                1.311.580
+  '6':   1215220, // Friuli Venezia Giulia  1.215.220
+  '10':   882015, // Umbria                   882.015
+  '17':   562869, // Basilicata               562.869
+  '14':   305617, // Molise                   305.617
+  '2':    125666, // Valle d'Aosta            125.666
+  '4':    531178, // BOLZANO
+  // '': 1.072.276, Trentino-Alto Adige
+};
 
 window.onload = function() {
   var ctx = document.getElementById('canvas').getContext('2d');
@@ -37,13 +61,37 @@ window.onload = function() {
   options.data.datasets = [];
 
   var query = getUrlVars();
+  var perc = (query.perc == 'SI' ? true : false);
+  if (perc) options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 10.000';
+  if (perc) {
+    $('.jumboTitle div.btn-group a.perc').addClass('btn-primary');
+    $('.jumboTitle div.btn-group a.abs').addClass('btn-outline-secondary');
+    $('#divDropRegioni a, #divDropProvince a').each(function() {
+       $(this).attr("href", $(this).attr("href") + "&perc=SI");
+    });
+    $('a[href="?stato=ITA"]').each(function() {
+       $(this).attr("href", $(this).attr("href") + "&perc=SI");
+    });
+  } else {
+    $('.jumboTitle div.btn-group a.perc').addClass('btn-outline-primary');
+    $('.jumboTitle div.btn-group a.abs').addClass('btn-secondary');
+  }
   if (query.codice_provincia) {
-    loadProvincia(ctx, options, query.codice_provincia);
+    $('.jumboTitle div.btn-group').hide();
+    loadProvincia(ctx, options, query.codice_provincia, perc);
   } else if (query.codice_regione) {
-    loadRegione(ctx, options, query.codice_regione);
+    $('.jumboTitle div.btn-group a.perc').attr('href',
+      ('?codice_regione=' + query.codice_regione + '&perc=SI')
+    );
+    $('.jumboTitle div.btn-group a.abs').attr('href',
+      ('?codice_regione=' + query.codice_regione)
+    );
+    loadRegione(ctx, options, query.codice_regione, perc);
   } else {
     $('#menu_province').hide();
-    loadNazionali(ctx, options);
+    $('.jumboTitle div.btn-group a.perc').attr('href', '?perc=SI');
+    $('.jumboTitle div.btn-group a.abs').attr('href', '?');
+    loadNazionali(ctx, options, perc);
   }
 };
 
@@ -56,7 +104,7 @@ function getUrlVars() {
   return vars;
 }
 
-function loadNazionali(ctx, options){
+function loadNazionali(ctx, options, perc){
   var json_url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json";
   $('#status').html('Importo dati Nazionali JSON da <pre>'+json_url+'</pre>');
   $.getJSON(json_url, function(dati_grezzi) {
@@ -99,20 +147,30 @@ function loadNazionali(ctx, options){
         fill: false,
         label: value,
         data: dati_grezzi.map(function(i){
-          return (i[key] ? i[key] : 0);
+          var value = (i[key] ? i[key] : 0);
+          if (perc) return (Math.round(value / (window.popolazione.italia / 10000) * 10000) / 10000);
+          return value;
         })
       });
       idx = idx + 1;
     }
     options.data.datasets[9].hidden = true;
-    
+    if (!perc) options.data.datasets.push({
+      backgroundColor: window.chartColors.blue,
+      borderColor: window.chartColors.blue,
+      fill: false,
+      label: 'Popolazione',
+      data: Array(dati_grezzi.length).fill(window.popolazione.italia),
+      hidden: true
+    });
+        
     $('#status').html('Genero il grafico');
     window.covidLine = new Chart(ctx, options);
     $('#status').hide();
   });
 }
 
-function loadRegione(ctx, options, cod){
+function loadRegione(ctx, options, cod, perc){
   var json_url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json";
   $('#status').html('Importo dati Regionali JSON da <pre>'+json_url+'</pre>');
   $.getJSON(json_url, function(dati_grezzi) {
@@ -191,12 +249,22 @@ function loadRegione(ctx, options, cod){
         label: value,
         data: date.map(function(i){
           var dato = dati_grezzi.find(function(el){ return el.data == i; });
-          return (dato[key] ? dato[key] : 0);
+          var value = (dato[key] ? dato[key] : 0);
+          if (perc) return (Math.round(value / (window.popolazione[cod] / 10000) * 10000) / 10000);
+          return value;
         })
       });
       idx = idx + 1;
     }
     options.data.datasets[9].hidden = true;
+    if (!perc) options.data.datasets.push({
+      backgroundColor: window.chartColors.blue,
+      borderColor: window.chartColors.blue,
+      fill: false,
+      label: 'Popolazione',
+      data: Array(date.length).fill(window.popolazione[cod]),
+      hidden: true
+    });
     
     $('#status').html('Genero il grafico');
     window.covidLine = new Chart(ctx, options);
@@ -204,7 +272,7 @@ function loadRegione(ctx, options, cod){
   });
 }
 
-function loadProvincia(ctx, options, cod){
+function loadProvincia(ctx, options, cod, perc){
   var json_url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-province.json";
   $('#status').html('Importo dati Provinciali JSON da <pre>'+json_url+'</pre>');
   $.getJSON(json_url, function(dati_grezzi) {

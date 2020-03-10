@@ -78,8 +78,17 @@
   <main role="main">
     <div class="jumbotron" id="headerJumbo" style="padding-bottom: 5px; margin-bottom: 0px; padding-top: 60px;">
       <div class="container">
-        <h3 class="display-5">Andamento COVID in Italia</h5>
-        <p class="d-none d-md-block d-lg-block d-xl-block">
+        <div class="jumboTitle" style="clear: both;">
+          <h3 class="display-5" style="float: left; display: inline-block;">
+            Andamento COVID in Italia
+          </h3>
+          <div class="btn-group" role="group" aria-label="Second group"
+            style="float: right; display: inline-block;">
+            <a class="btn btn-sm perc" href="" role="button">Percentuale</a>
+            <a class="btn btn-sm abs"  href="" role="button">Assoluti</a>
+          </div>
+        </div>
+        <p class="d-none d-md-block d-lg-block d-xl-block" style="clear: both;">
           Caricamento dati dai dati della protezione civile in <br />
           <a href="https://github.com/pcm-dpc/COVID-19">https://github.com/pcm-dpc/COVID-19</a>
         </p>
@@ -88,7 +97,7 @@
       </div>
     </div>
 
-    <div class="container grafico">
+    <div class="container grafico" style="clear: both;">
       <div class="row">
         <div class="col-12" style="min-height: 450px;">
           <canvas id="canvas"></canvas>
