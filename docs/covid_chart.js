@@ -44,7 +44,10 @@ window.onload = function() {
       maintainAspectRatio: false,
       title: { display: false },
       tooltips: { mode: 'index', intersect: false },
-      hover: { mode: 'nearest', intersect: true },
+      hover: { mode: 'nearest', intersect: false },
+      legend: {
+        position: 'bottom'
+      },
       scales: {
         xAxes: [{
           display: true,
@@ -76,7 +79,11 @@ window.onload = function() {
     $('.jumboTitle div.btn-group a.perc').addClass('btn-outline-primary');
     $('.jumboTitle div.btn-group a.abs').addClass('btn-secondary');
   }
-  if (query.codice_provincia) {
+  if (query.mondo) {
+    $('#menu_province').hide();
+    $('.jumboTitle div.btn-group').hide();
+    loadMondo(ctx, options, query.mondo);
+  } else if (query.codice_provincia) {
     $('.jumboTitle div.btn-group').hide();
     loadProvincia(ctx, options, query.codice_provincia, perc);
   } else if (query.codice_regione) {
