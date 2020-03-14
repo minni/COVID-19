@@ -1,6 +1,18 @@
 // https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series
 
-function loadMondo(ctx, options, tipo){
+window.pop_stati = {
+  Austria:          (  8.822 ) * 1000000,
+  China:            (1386    ) * 1000000,
+  France:           (  66.89 ) * 1000000,
+  Germany:          (  82.79 ) * 1000000,
+  Iran:             (  81.16 ) * 1000000,
+  Italy:            (  60.48 ) * 1000000,
+  Spain:            (  46.66 ) * 1000000,
+  US:               ( 327.2  ) * 1000000,
+  'United Kingdom': (  66.44 ) * 1000000,
+};
+
+function loadMondo(ctx, options, tipo, perc){
   var csv_url = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-"+tipo+".csv";
   $('#status').html('Importo dati Mondialo CSV da <pre>'+csv_url+'</pre>');
   $('#headerJumbo p.italy').attr('style', 'display: none!important');
@@ -47,6 +59,7 @@ function loadMondo(ctx, options, tipo){
       // var stati = "Afghanistan|Albania|Algeria|Andorra|Argentina|Armenia|Australia|Austria|Azerbaijan|Bahrain|Bangladesh|Belarus|Belgium|Bhutan|Bolivia|Bosnia and Herzegovina|Brazil|Brunei|Bulgaria|Burkina Faso|Cambodia|Cameroon|Canada|Chile|China|Colombia|Congo (Kinshasa)|Costa Rica|Cote d'Ivoire|Croatia|Cruise Ship|Cuba|Cyprus|Czechia|Denmark|Dominican Republic|Ecuador|Egypt|Estonia|Finland|France|French Guiana|Georgia|Germany|Greece|Guyana|Holy See|Honduras|Hungary|Iceland|India|Indonesia|Iran|Iraq|Ireland|Israel|Italy|Jamaica|Japan|Jordan|Kuwait|Latvia|Lebanon|Liechtenstein|Lithuania|Luxembourg|Malaysia|Maldives|Malta|Martinique|Mexico|Moldova|Monaco|Mongolia|Morocco|Nepal|Netherlands|New Zealand|Nigeria|North Macedonia|Norway|Oman|Pakistan|Panama|Paraguay|Peru|Philippines|Poland|Portugal|Qatar|Reunion|Romania|Russia|San Marino|Saudi Arabia|Senegal|Serbia|Singapore|Slovakia|Slovenia|South Africa|Spain|Sri Lanka|Sweden|Switzerland|Taiwan*|Thailand|Togo|Tunisia|Turkey|US|Ukraine|United Arab Emirates|United Kingdom|Vietnam".split('|');
       var stati = "Austria|China|France|Germany|Iran|Italy|Spain|US|United Kingdom".split('|');    
       // IMPOSTO DATASET
+      if (perc) options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 1.000.000';
       for (var [key, value] of Object.entries(result)) {
         // if (value[value.length - 1] > 50) {
         if (stati.includes(key)) {
@@ -56,7 +69,12 @@ function loadMondo(ctx, options, tipo){
             // borderColor: Object.values(window.chartColors)[idx],
             fill: false,
             label: key,
-            data: value
+            // data: value
+            data: value.map(function(i){
+              if (!i) i = 0;
+              if (perc) return (Math.round(i / (window.pop_stati[key] / 1000000) * 1000) / 1000);
+              return i;
+            })
           });
         }
       }

@@ -69,7 +69,7 @@ window.onload = function() {
   if (perc) {
     $('.jumboTitle div.btn-group a.perc').addClass('btn-primary');
     $('.jumboTitle div.btn-group a.abs').addClass('btn-outline-secondary');
-    $('#divDropRegioni a, #divDropProvince a').each(function() {
+    $('#divDropRegioni a, #divDropProvince a, #divDropMondo a').each(function() {
        $(this).attr("href", $(this).attr("href") + "&perc=SI");
     });
     $('a[href="?stato=ITA"]').each(function() {
@@ -81,8 +81,14 @@ window.onload = function() {
   }
   if (query.mondo) {
     $('#menu_province').hide();
-    $('.jumboTitle div.btn-group').hide();
-    loadMondo(ctx, options, query.mondo);
+    // $('.jumboTitle div.btn-group').hide();
+    $('.jumboTitle div.btn-group a.perc').attr('href',
+      ('?mondo=' + query.mondo + '&perc=SI')
+    );
+    $('.jumboTitle div.btn-group a.abs').attr('href',
+      ('?mondo=' + query.mondo)
+    );
+    loadMondo(ctx, options, query.mondo, perc);
   } else if (query.codice_provincia) {
     $('.jumboTitle div.btn-group').hide();
     loadProvincia(ctx, options, query.codice_provincia, perc);
