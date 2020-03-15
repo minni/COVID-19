@@ -64,20 +64,33 @@ window.onload = function() {
   options.data.datasets = [];
 
   var query = getUrlVars();
-  var perc = (query.perc == 'SI' ? true : false);
-  if (perc) options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 100.000';
-  if (perc) {
-    $('.jumboTitle div.btn-group a.perc').addClass('btn-primary');
-    $('.jumboTitle div.btn-group a.abs').addClass('btn-outline-secondary');
+  var perc = query.perc;
+  if (perc == 'SI') options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 100.000';
+  else if (perc == 'TREND') options.options.scales.yAxes[0].scaleLabel.labelString = '% rispetto al giorno precedente';
+  if (perc == 'SI') {
+    $('.jumboTitle div.btn-group a.perc' ).addClass('btn-primary');
+    $('.jumboTitle div.btn-group a.abs'  ).addClass('btn-outline-secondary');
+    $('.jumboTitle div.btn-group a.trend').addClass('btn-outline-info');
     $('#divDropRegioni a, #divDropProvince a, #divDropMondo a').each(function() {
        $(this).attr("href", $(this).attr("href") + "&perc=SI");
     });
     $('a[href="?stato=ITA"]').each(function() {
        $(this).attr("href", $(this).attr("href") + "&perc=SI");
     });
+  } else if (perc == 'TREND') {
+    $('.jumboTitle div.btn-group a.perc' ).addClass('btn-outline-primary');
+    $('.jumboTitle div.btn-group a.abs'  ).addClass('btn-outline-secondary');
+    $('.jumboTitle div.btn-group a.trend').addClass('btn-info');
+    $('#divDropRegioni a, #divDropProvince a, #divDropMondo a').each(function() {
+       $(this).attr("href", $(this).attr("href") + "&perc=TREND");
+    });
+    $('a[href="?stato=ITA"]').each(function() {
+       $(this).attr("href", $(this).attr("href") + "&perc=TREND");
+    });
   } else {
-    $('.jumboTitle div.btn-group a.perc').addClass('btn-outline-primary');
-    $('.jumboTitle div.btn-group a.abs').addClass('btn-secondary');
+    $('.jumboTitle div.btn-group a.perc' ).addClass('btn-outline-primary');
+    $('.jumboTitle div.btn-group a.abs'  ).addClass('btn-secondary');
+    $('.jumboTitle div.btn-group a.trend').addClass('btn-outline-info');
   }
   if (query.mondo) {
     $('#menu_province').hide();
@@ -87,6 +100,9 @@ window.onload = function() {
     );
     $('.jumboTitle div.btn-group a.abs').attr('href',
       ('?mondo=' + query.mondo)
+    );
+    $('.jumboTitle div.btn-group a.trend').attr('href',
+      ('?mondo=' + query.mondo + '&perc=TREND')
     );
     loadMondo(ctx, options, query.mondo, perc);
   } else if (query.codice_provincia) {
@@ -99,11 +115,15 @@ window.onload = function() {
     $('.jumboTitle div.btn-group a.abs').attr('href',
       ('?codice_regione=' + query.codice_regione)
     );
+    $('.jumboTitle div.btn-group a.trend').attr('href',
+      ('?codice_regione=' + query.codice_regione + '&perc=TREND')
+    );
     loadRegione(ctx, options, query.codice_regione, perc);
   } else {
     $('#menu_province').hide();
     $('.jumboTitle div.btn-group a.perc').attr('href', '?perc=SI');
     $('.jumboTitle div.btn-group a.abs').attr('href', '?');
+    $('.jumboTitle div.btn-group a.trend').attr('href', '?perc=TREND');
     loadNazionali(ctx, options, perc);
   }
 };
@@ -154,6 +174,7 @@ function loadNazionali(ctx, options, perc){
     var idx = 0;
     for (var [key, value] of Object.entries(variabili)) {
       // console.log(`${key}: ${value}`);
+      var prev = 'ND';
       options.data.datasets.push({
         backgroundColor: Object.values(window.chartColors)[idx],
         borderColor: Object.values(window.chartColors)[idx],
@@ -161,7 +182,15 @@ function loadNazionali(ctx, options, perc){
         label: value,
         data: dati_grezzi.map(function(i){
           var value = (i[key] ? i[key] : 0);
-          if (perc) return (Math.round(value / window.popolazione.italia * 10000) / 10000);
+          if (perc == 'SI') return (Math.round(value / window.popolazione.italia * 10000) / 10000);
+          if (perc == 'TREND') {
+            if (prev == 'ND') prev = value;
+            var res = (prev == 0 ? 0 : ((value - prev) / prev));
+            prev = value;
+            if (res > 1) return 100;
+            if (res < -1) return -100;
+            return (Math.round(res * 10000) / 100);
+          }
           return value;
         })
       });
@@ -255,6 +284,7 @@ function loadRegione(ctx, options, cod, perc){
     var idx = 0;
     for (var [key, value] of Object.entries(variabili)) {
       // console.log(`${key}: ${value}`);
+      var prev = 'ND';
       options.data.datasets.push({
         backgroundColor: Object.values(window.chartColors)[idx],
         borderColor: Object.values(window.chartColors)[idx],
@@ -263,14 +293,22 @@ function loadRegione(ctx, options, cod, perc){
         data: date.map(function(i){
           var dato = dati_grezzi.find(function(el){ return el.data == i; });
           var value = (dato[key] ? dato[key] : 0);
-          if (perc) return (Math.round(value / window.popolazione[cod] * 10000) / 10000);
+          if (perc == 'SI') return (Math.round(value / window.popolazione[cod] * 10000) / 10000);
+          if (perc == 'TREND') {
+            if (prev == 'ND') prev = value;
+            var res = (prev == 0 ? 0 : ((value - prev) / prev));
+            prev = value;
+            if (res > 1) return 100;
+            if (res < -1) return -100;
+            return (Math.round(res * 10000) / 100);
+          }
           return value;
         })
       });
       idx = idx + 1;
     }
     options.data.datasets[9].hidden = true;
-    if (!perc) options.data.datasets.push({
+    if (perc != 'SI') options.data.datasets.push({
       backgroundColor: window.chartColors.blue,
       borderColor: window.chartColors.blue,
       fill: false,

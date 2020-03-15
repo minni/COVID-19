@@ -64,6 +64,7 @@ function loadMondo(ctx, options, tipo, perc){
         // if (value[value.length - 1] > 50) {
         if (stati.includes(key)) {
           // console.log(`${key}: ${value}`);
+          var prev = 'ND';
           options.data.datasets.push({
             // backgroundColor: Object.values(window.chartColors)[idx],
             // borderColor: Object.values(window.chartColors)[idx],
@@ -72,7 +73,15 @@ function loadMondo(ctx, options, tipo, perc){
             // data: value
             data: value.map(function(i){
               if (!i) i = 0;
-              if (perc) return (Math.round(i / window.pop_stati[key] * 10000) / 10000);
+              if (perc == 'SI') return (Math.round(i / window.pop_stati[key] * 10000) / 10000);
+              if (perc == 'TREND') {
+                if (prev == 'ND') prev = i;
+                var res = (prev == 0 ? 0 : ((i - prev) / prev));
+                prev = i;
+                if (res > 1) return 100;
+                if (res < -1) return -100;
+                return (Math.round(res * 10000) / 100);
+              }
               return i;
             })
           });
