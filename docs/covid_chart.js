@@ -11,27 +11,27 @@ window.chartColors = {
   yellow: 'rgb(255, 205, 86)',
 };
 window.popolazione = {
-  italia: 60359546,
-  '3':  10060574, // Lombardia             10.060.574
-  '12':  5879082, // Lazio                  5.879.082
-  '15':  5801692, // Campania               5.801.692
-  '19':  4999891, // Sicilia                4.999.891
-  '5':   4905854, // Veneto                 4.905.854
-  '8':   4459477, // Emilia-Romagna         4.459.477
-  '1':   4356406, // Piemonte               4.356.406
-  '16':  4029053, // Puglia                 4.029.053
-  '9':   3729641, // Toscana                3.729.641
-  '18':  1947131, // Calabria               1.947.131
-  '20':  1639591, // Sardegna               1.639.591
-  '7':   1550640, // Liguria                1.550.640
-  '11':  1525271, // Marche                 1.525.271
-  '13':  1311580, // Abruzzo                1.311.580
-  '6':   1215220, // Friuli Venezia Giulia  1.215.220
-  '10':   882015, // Umbria                   882.015
-  '17':   562869, // Basilicata               562.869
-  '14':   305617, // Molise                   305.617
-  '2':    125666, // Valle d'Aosta            125.666
-  '4':    531178, // BOLZANO
+  italia: (60359546 / 100000),
+  '3':    (10060574 / 100000), // Lombardia             10.060.574
+  '12':   ( 5879082 / 100000), // Lazio                  5.879.082
+  '15':   ( 5801692 / 100000), // Campania               5.801.692
+  '19':   ( 4999891 / 100000), // Sicilia                4.999.891
+  '5':    ( 4905854 / 100000), // Veneto                 4.905.854
+  '8':    ( 4459477 / 100000), // Emilia-Romagna         4.459.477
+  '1':    ( 4356406 / 100000), // Piemonte               4.356.406
+  '16':   ( 4029053 / 100000), // Puglia                 4.029.053
+  '9':    ( 3729641 / 100000), // Toscana                3.729.641
+  '18':   ( 1947131 / 100000), // Calabria               1.947.131
+  '20':   ( 1639591 / 100000), // Sardegna               1.639.591
+  '7':    ( 1550640 / 100000), // Liguria                1.550.640
+  '11':   ( 1525271 / 100000), // Marche                 1.525.271
+  '13':   ( 1311580 / 100000), // Abruzzo                1.311.580
+  '6':    ( 1215220 / 100000), // Friuli Venezia Giulia  1.215.220
+  '10':   (  882015 / 100000), // Umbria                   882.015
+  '17':   (  562869 / 100000), // Basilicata               562.869
+  '14':   (  305617 / 100000), // Molise                   305.617
+  '2':    (  125666 / 100000), // Valle d'Aosta            125.666
+  '4':    (  531178 / 100000), // BOLZANO
   // '': 1.072.276, Trentino-Alto Adige
 };
 
@@ -65,7 +65,7 @@ window.onload = function() {
 
   var query = getUrlVars();
   var perc = (query.perc == 'SI' ? true : false);
-  if (perc) options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 10.000';
+  if (perc) options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 100.000';
   if (perc) {
     $('.jumboTitle div.btn-group a.perc').addClass('btn-primary');
     $('.jumboTitle div.btn-group a.abs').addClass('btn-outline-secondary');
@@ -161,7 +161,7 @@ function loadNazionali(ctx, options, perc){
         label: value,
         data: dati_grezzi.map(function(i){
           var value = (i[key] ? i[key] : 0);
-          if (perc) return (Math.round(value / (window.popolazione.italia / 10000) * 10000) / 10000);
+          if (perc) return (Math.round(value / window.popolazione.italia * 10000) / 10000);
           return value;
         })
       });
@@ -263,7 +263,7 @@ function loadRegione(ctx, options, cod, perc){
         data: date.map(function(i){
           var dato = dati_grezzi.find(function(el){ return el.data == i; });
           var value = (dato[key] ? dato[key] : 0);
-          if (perc) return (Math.round(value / (window.popolazione[cod] / 10000) * 10000) / 10000);
+          if (perc) return (Math.round(value / window.popolazione[cod] * 10000) / 10000);
           return value;
         })
       });
