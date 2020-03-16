@@ -107,6 +107,7 @@ window.onload = function() {
     loadMondo(ctx, options, query.mondo, perc);
   } else if (query.codice_provincia) {
     $('.jumboTitle div.btn-group').hide();
+    options.options.scales.yAxes[0].scaleLabel.labelString = 'Persone';
     loadProvincia(ctx, options, query.codice_provincia, perc);
   } else if (query.codice_regione) {
     $('.jumboTitle div.btn-group a.perc').attr('href',
