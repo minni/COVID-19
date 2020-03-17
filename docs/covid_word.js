@@ -10,6 +10,7 @@ window.pop_stati = {
   Spain:            (  46.66  * 1000000 / 100000),
   US:               ( 327.2   * 1000000 / 100000),
   'United Kingdom': (  66.44  * 1000000 / 100000),
+  // 'Vietnam':        (  95.54  * 1000000 / 100000),
 };
 
 function loadMondo(ctx, options, tipo, perc){

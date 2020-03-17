@@ -237,6 +237,10 @@ function loadRegione(ctx, options, cod, perc){
     // CARICO DATE
     $('#status').html('Carico date');
     var date = dati_grezzi.map(function(i){return i.data; });
+    var oggi = new Date().toJSON();
+    date = date.filter(function(value, index, self) { 
+      return value <= oggi ? true : false;
+    });
     // DATE UNICHE
     // https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates?answertab=votes#tab-top
     date = date.filter(function onlyUnique(value, index, self) { 
@@ -293,7 +297,7 @@ function loadRegione(ctx, options, cod, perc){
         label: value,
         data: date.map(function(i){
           var dato = dati_grezzi.find(function(el){ return el.data == i; });
-          var value = (dato[key] ? dato[key] : 0);
+          var value = dato ? (dato[key] ? dato[key] : 0) : 0;
           if (perc == 'SI') return (Math.round(value / window.popolazione[cod] * 10000) / 10000);
           if (perc == 'TREND') {
             if (prev == 'ND') prev = value;
