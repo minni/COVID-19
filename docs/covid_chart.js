@@ -6,9 +6,7 @@ window.chartColors = {
   blue: 'rgb(54, 162, 235)',
   purple: 'rgb(153, 102, 255)',
   grey: 'rgb(201, 203, 207)',
-  red: 'rgb(255, 99, 132)',
-  orange: 'rgb(255, 159, 64)',
-  yellow: 'rgb(255, 205, 86)',
+  green2: 'rgb(155, 209, 120)'
 };
 window.popolazione = {
   italia: (60359546 / 100000),
@@ -172,13 +170,25 @@ function loadNazionali(ctx, options, perc){
       totale_casi: 'Totale casi',
       tamponi: 'Tamponi',
     };
+    var colori = {
+      ricoverati_con_sintomi:      window.chartColors.red,
+      terapia_intensiva:           window.chartColors.orange,
+      totale_ospedalizzati:        window.chartColors.yellow,
+      isolamento_domiciliare:      window.chartColors.green,
+      totale_attualmente_positivi: window.chartColors.blue,
+      nuovi_attualmente_positivi:  window.chartColors.purple,
+      dimessi_guariti:             window.chartColors.green2,
+      deceduti:                    window.chartColors.grey,
+      totale_casi:                 undefined, // window.chartColors.orange,
+      tamponi:                     undefined, // window.chartColors.yellow
+    };
     var idx = 0;
     for (var [key, value] of Object.entries(variabili)) {
       // console.log(`${key}: ${value}`);
       var prev = 'ND';
       options.data.datasets.push({
-        backgroundColor: Object.values(window.chartColors)[idx],
-        borderColor: Object.values(window.chartColors)[idx],
+        backgroundColor: colori[key],
+        borderColor:     colori[key],
         fill: false,
         label: value,
         data: dati_grezzi.map(function(i){
@@ -286,13 +296,25 @@ function loadRegione(ctx, options, cod, perc){
       totale_casi: 'Totale casi',
       tamponi: 'Tamponi',
     };
+    var colori = {
+      ricoverati_con_sintomi:      window.chartColors.red,
+      terapia_intensiva:           window.chartColors.orange,
+      totale_ospedalizzati:        window.chartColors.yellow,
+      isolamento_domiciliare:      window.chartColors.green,
+      totale_attualmente_positivi: window.chartColors.blue,
+      nuovi_attualmente_positivi:  window.chartColors.purple,
+      dimessi_guariti:             window.chartColors.green2,
+      deceduti:                    window.chartColors.grey,
+      totale_casi:                 undefined, // window.chartColors.orange,
+      tamponi:                     undefined, // window.chartColors.yellow
+    };
     var idx = 0;
     for (var [key, value] of Object.entries(variabili)) {
       // console.log(`${key}: ${value}`);
       var prev = 'ND';
       options.data.datasets.push({
-        backgroundColor: Object.values(window.chartColors)[idx],
-        borderColor: Object.values(window.chartColors)[idx],
+        backgroundColor: colori[key],
+        borderColor:     colori[key],
         fill: false,
         label: value,
         data: date.map(function(i){
