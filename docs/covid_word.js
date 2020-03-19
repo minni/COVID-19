@@ -20,6 +20,8 @@ function loadMondo(ctx, options, tipo, perc){
   $('#status').html('Importo dati Mondialo CSV da <pre>'+csv_url+'</pre>');
   $('#headerJumbo p.italy').attr('style', 'display: none!important');
   $('#headerJumbo p.mondo').show();
+  $('#headerJumbo div h3').html("Dati mondiali: " + tipo);
+  options.options.title.text = "COVID Mondiale " + tipo;
   // // PLUGIN per colorare
   $.getScript("https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.4.0/chartjs-plugin-colorschemes.min.js", function(){
     $.get(csv_url, function(dati_grezzi) {
@@ -48,9 +50,6 @@ function loadMondo(ctx, options, tipo, perc){
           result[country][j-4] += parseInt(currentline[j]);
         }
       }
-
-      $('#headerJumbo div h3').html("Dati mondiali: " + tipo);
-      options.options.title.text = "COVID Mondiale " + tipo;
 
       // IMPOSTO ETICHETTE
       $('#status').html('Carico etichette dei giorni');

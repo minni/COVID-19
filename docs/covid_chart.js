@@ -91,6 +91,7 @@ window.onload = function() {
     $('.jumboTitle div.btn-group a.trend').addClass('btn-outline-info');
   }
   if (query.mondo) {
+    $('#navbarCovid ul li:nth-child(4)').addClass('active');
     $('#menu_province').hide();
     // $('.jumboTitle div.btn-group').hide();
     $('.jumboTitle div.btn-group a.perc').attr('href',
@@ -104,10 +105,12 @@ window.onload = function() {
     );
     loadMondo(ctx, options, query.mondo, perc);
   } else if (query.codice_provincia) {
+    $('#navbarCovid ul li:nth-child(3)').addClass('active');
     $('.jumboTitle div.btn-group').hide();
     options.options.scales.yAxes[0].scaleLabel.labelString = 'Persone';
     loadProvincia(ctx, options, query.codice_provincia, perc);
   } else if (query.codice_regione) {
+    $('#navbarCovid ul li:nth-child(2)').addClass('active');
     $('.jumboTitle div.btn-group a.perc').attr('href',
       ('?codice_regione=' + query.codice_regione + '&perc=SI')
     );
@@ -119,6 +122,7 @@ window.onload = function() {
     );
     loadRegione(ctx, options, query.codice_regione, perc);
   } else {
+    $('#navbarCovid ul li:nth-child(1)').addClass('active');
     $('#menu_province').hide();
     $('.jumboTitle div.btn-group a.perc').attr('href', '?perc=SI');
     $('.jumboTitle div.btn-group a.abs').attr('href', '?');
@@ -195,8 +199,15 @@ function loadNazionali(ctx, options, perc){
           var value = (i[key] ? i[key] : 0);
           if (perc == 'SI') return (Math.round(value / window.popolazione.italia * 10000) / 10000);
           if (perc == 'TREND') {
-            if (prev == 'ND') prev = value;
-            var res = (prev == 0 ? 0 : ((value - prev) / prev));
+            if (prev == 'ND') {
+              prev = value;
+              return 0;
+            }
+            if (prev == 0) {
+              prev = value;
+              return 0;
+            }
+            var res = (value - prev) / prev;
             prev = value;
             if (res > 1) return 100;
             if (res < -1) return -100;
