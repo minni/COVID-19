@@ -10,6 +10,8 @@ window.pop_stati = {
   Spain:            (  46.66  * 1000000 / 100000),
   US:               ( 327.2   * 1000000 / 100000),
   'United Kingdom': (  66.44  * 1000000 / 100000),
+  Switzerland:      (   8.57  * 1000000 / 100000),
+  Ireland:          (   4.83  * 1000000 / 100000),
   // 'Vietnam':        (  95.54  * 1000000 / 100000),
 };
 
@@ -58,7 +60,7 @@ function loadMondo(ctx, options, tipo, perc){
       options.options.legend.position = 'bottom';
       
       // var stati = "Afghanistan|Albania|Algeria|Andorra|Argentina|Armenia|Australia|Austria|Azerbaijan|Bahrain|Bangladesh|Belarus|Belgium|Bhutan|Bolivia|Bosnia and Herzegovina|Brazil|Brunei|Bulgaria|Burkina Faso|Cambodia|Cameroon|Canada|Chile|China|Colombia|Congo (Kinshasa)|Costa Rica|Cote d'Ivoire|Croatia|Cruise Ship|Cuba|Cyprus|Czechia|Denmark|Dominican Republic|Ecuador|Egypt|Estonia|Finland|France|French Guiana|Georgia|Germany|Greece|Guyana|Holy See|Honduras|Hungary|Iceland|India|Indonesia|Iran|Iraq|Ireland|Israel|Italy|Jamaica|Japan|Jordan|Kuwait|Latvia|Lebanon|Liechtenstein|Lithuania|Luxembourg|Malaysia|Maldives|Malta|Martinique|Mexico|Moldova|Monaco|Mongolia|Morocco|Nepal|Netherlands|New Zealand|Nigeria|North Macedonia|Norway|Oman|Pakistan|Panama|Paraguay|Peru|Philippines|Poland|Portugal|Qatar|Reunion|Romania|Russia|San Marino|Saudi Arabia|Senegal|Serbia|Singapore|Slovakia|Slovenia|South Africa|Spain|Sri Lanka|Sweden|Switzerland|Taiwan*|Thailand|Togo|Tunisia|Turkey|US|Ukraine|United Arab Emirates|United Kingdom|Vietnam".split('|');
-      var stati = "Austria|China|France|Germany|Iran|Italy|Spain|US|United Kingdom".split('|');    
+      var stati = "Austria|China|France|Germany|Iran|Ireland|Italy|Spain|Switzerland|US|United Kingdom".split('|');
       // IMPOSTO DATASET
       // if (perc) options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 100.000';
       for (var [key, value] of Object.entries(result)) {
