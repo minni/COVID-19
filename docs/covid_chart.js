@@ -42,7 +42,7 @@ window.onload = function() {
       maintainAspectRatio: false,
       title: { display: false },
       tooltips: { mode: 'index', intersect: true },
-      hover: { mode: 'nearest', intersect: true },
+      // hover: { mode: 'nearest', intersect: true },
       legend: {
         position: 'bottom'
       },
@@ -91,7 +91,7 @@ window.onload = function() {
     $('.jumboTitle div.btn-group a.trend').addClass('btn-outline-info');
   }
   if (query.mondo) {
-    $('#navbarCovid ul li:nth-child(4)').addClass('active');
+    $('#navbarCovid ul li:nth-child(5)').addClass('active');
     $('#menu_province').hide();
     // $('.jumboTitle div.btn-group').hide();
     $('.jumboTitle div.btn-group a.perc').attr('href',
@@ -104,6 +104,12 @@ window.onload = function() {
       ('?mondo=' + query.mondo + '&perc=TREND')
     );
     loadMondo(ctx, options, query.mondo, perc);
+  } else if (query.confronta) {
+    $('#navbarCovid ul li:nth-child(4)').addClass('active');
+    $('.jumboTitle div.btn-group').hide();
+    $('#menu_province').hide();
+    options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 100.000';
+    loadConfronto(ctx, options, query.confronta);
   } else if (query.codice_provincia) {
     $('#navbarCovid ul li:nth-child(3)').addClass('active');
     $('.jumboTitle div.btn-group').hide();
