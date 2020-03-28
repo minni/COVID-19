@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Tomaso Minelli">
+    <meta name="generator" content="Sublime">
+    <title>COVID</title>
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
+
+    <!-- link href="index.css" rel="stylesheet"-->
+    <script src="js/dati.js"></script>
+    <script src="js/grafici.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow"
+      style="max-width: 100vw;">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">COVID-19</a>
+      <!-- ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Sign out</a>
+        </li>
+      </ul -->
+    </nav>
+    <main role="main">
+      <div class="jumbotron" id="headerJumbo"
+        style="padding-bottom: 5px; margin-bottom: 0px; padding-top: 60px;">
+        <div class="container" style="padding: 0px;">
+          <div class="jumboTitle">
+            <h3 class="display-5">
+              Andamento COVID-19
+            </h3>
+          </div>
+          <p class="d-none d-md-block d-lg-block d-xl-block italy">
+            Dati italiani della protezione civile in 
+            <a href="https://github.com/pcm-dpc/COVID-19">https://github.com/pcm-dpc/COVID-19</a>
+          </p>
+          <p class="d-none d-md-block d-lg-block d-xl-block mondo">
+            Dati mondiali della Johns Hopkins in 
+            <a href="https://github.com/CSSEGISandData/COVID-19">https://github.com/CSSEGISandData/COVID-19</a>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 ml-sm-auto px-4">
+
+          <div class="btn-group" role="group" id="area">
+            <button type="button" data-toggle="dropdown"
+              class="btn btn-outline-primary dropdown-toggle"
+              aria-haspopup="true" aria-expanded="false">
+              Area
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <a class="dropdown-item" href="#italia">Italia</a>
+              <a class="dropdown-item" href="#mondo">Mondo</a>
+            </div>
+          </div>
+
+          <div class="btn-group" role="group" id="regione">
+            <button type="button" data-toggle="dropdown"
+              class="btn btn-outline-primary dropdown-toggle"
+              aria-haspopup="true" aria-expanded="false">
+              Regione
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <a class="dropdown-item" href="#tutte">Tutte</a>
+            </div>
+          </div>
+
+          <div class="btn-group" role="group" id="periodo">
+            <button type="button" data-toggle="dropdown"
+              class="btn btn-outline-primary dropdown-toggle"
+              aria-haspopup="true" aria-expanded="false">
+              Periodo
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <a class="dropdown-item" href="#oggiabs">Oggi Assoluti</a>
+              <a class="dropdown-item" href="#oggiprc">Oggi Percentuali</a>
+              <a class="dropdown-item" href="#histabs">Storico Assoluti</a>
+              <a class="dropdown-item" href="#histprc">Storico Percentuale</a>
+              <a class="dropdown-item" href="#histinc">Storico Incremento</a>
+              <a class="dropdown-item" href="#100cabs">Dai 100 casi Assoluti</a>
+              <a class="dropdown-item" href="#100cprc">Dai 100 casi Percentuale</a>
+              <a class="dropdown-item" href="#100cinc">Dai 100 casi Incremento</a>
+            </div>
+          </div>
+
+          <div class="btn-group" role="group" id="indici">
+            <button type="button" data-toggle="dropdown"
+              class="btn btn-outline-primary dropdown-toggle"
+              aria-haspopup="true" aria-expanded="false">
+              Indice
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+              <a class="dropdown-item" href="#confirmed">Totale casi</a>
+              <a class="dropdown-item" href="#deaths">Deceduti</a>
+              <a class="dropdown-item" href="#recovered">Terapia intensiva</a>
+
+              <a class="dropdown-item" href="#tutti">Tutti</a>
+              <a class="dropdown-item" href="#province">Province</a>
+              <a class="dropdown-item" href="#ricoverati_con_sintomi">Ricoverati con sintomi</a>
+              <a class="dropdown-item" href="#terapia_intensiva">Terapia intensiva</a>
+              <a class="dropdown-item" href="#totale_ospedalizzati">Totale ospedalizzati</a>
+              <a class="dropdown-item" href="#isolamento_domiciliare">Isolamento domiciliare</a>
+              <a class="dropdown-item" href="#totale_attualmente_positivi">Totale attualmente positivi</a>
+              <a class="dropdown-item" href="#nuovi_attualmente_positivi">Nuovi attualmente positivi</a>
+              <a class="dropdown-item" href="#dimessi_guariti">Dimessi guariti</a>
+              <a class="dropdown-item" href="#deceduti">Deceduti</a>
+              <a class="dropdown-item" href="#totale_casi">Totale casi</a>
+              <a class="dropdown-item" href="#tamponi">Tamponi</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <h2>Grafico</h2>
+      <canvas id="canvas"></canvas>
+      
+      <!--h2>Dati Grezzi</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead><tr></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div-->
+    </main>
+  </body>
+</html>

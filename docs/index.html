@@ -18,6 +18,7 @@
   <!-- script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.4"></script -->
   <script src="covid_word.js"></script>
   <script src="covid_compare.js"></script>
+  <script src="covid_italia_escluso.js"></script>
   <script src="covid_chart.js"></script>
 
   <style>
@@ -56,7 +57,16 @@
     <div class="collapse navbar-collapse" id="navbarCovid">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="?stato=ITA">Italia</a>
+          <!--a class="nav-link" href="?stato=ITA">Italia</a-->
+          <a class="nav-link dropdown-toggle" href="#"
+            id="dropItalia" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Italia
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropItalia" id="divDropItalia">
+            <a class="dropdown-item" href="?stato=ITA">Italia</a>
+            <a class="dropdown-item" href="?stato=ITA-NOLOMB">Italia Esclusa Lombardia</a>
+          </div>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#"

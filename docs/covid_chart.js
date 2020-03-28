@@ -69,20 +69,20 @@ window.onload = function() {
     $('.jumboTitle div.btn-group a.perc' ).addClass('btn-primary');
     $('.jumboTitle div.btn-group a.abs'  ).addClass('btn-outline-secondary');
     $('.jumboTitle div.btn-group a.trend').addClass('btn-outline-info');
-    $('#divDropRegioni a, #divDropProvince a, #divDropMondo a').each(function() {
+    $('#divDropRegioni a, #divDropProvince a, #divDropMondo a, #divDropItalia a').each(function() {
        $(this).attr("href", $(this).attr("href") + "&perc=SI");
     });
-    $('a[href="?stato=ITA"]').each(function() {
+    $('a[href^="?stato="]').each(function() {
        $(this).attr("href", $(this).attr("href") + "&perc=SI");
     });
   } else if (perc == 'TREND') {
     $('.jumboTitle div.btn-group a.perc' ).addClass('btn-outline-primary');
     $('.jumboTitle div.btn-group a.abs'  ).addClass('btn-outline-secondary');
     $('.jumboTitle div.btn-group a.trend').addClass('btn-info');
-    $('#divDropRegioni a, #divDropProvince a, #divDropMondo a').each(function() {
+    $('#divDropRegioni a, #divDropProvince a, #divDropMondo a, #divDropItalia a').each(function() {
        $(this).attr("href", $(this).attr("href") + "&perc=TREND");
     });
-    $('a[href="?stato=ITA"]').each(function() {
+    $('a[href^="?stato="]').each(function() {
        $(this).attr("href", $(this).attr("href") + "&perc=TREND");
     });
   } else {
@@ -127,6 +127,14 @@ window.onload = function() {
       ('?codice_regione=' + query.codice_regione + '&perc=TREND')
     );
     loadRegione(ctx, options, query.codice_regione, perc);
+  } else if (query.stato == 'ITA-NOLOMB') {
+    $('#navbarCovid ul li:nth-child(1)').addClass('active');
+    $('#menu_province').hide();
+    $('.jumboTitle div.btn-group a.perc').attr('href', '?perc=SI');
+    $('.jumboTitle div.btn-group a.abs').attr('href', '?');
+    $('.jumboTitle div.btn-group a.trend').attr('href', '?perc=TREND');
+    loadItaNoLomb(ctx, options, perc);
+    $('#status').hide();
   } else {
     $('#navbarCovid ul li:nth-child(1)').addClass('active');
     $('#menu_province').hide();
@@ -192,6 +200,9 @@ function loadNazionali(ctx, options, perc){
       totale_casi:                 undefined, // window.chartColors.orange,
       tamponi:                     undefined, // window.chartColors.yellow
     };
+    if (perc == 'TREND') {
+      delete variabili['nuovi_attualmente_positivi'];
+    }
     var idx = 0;
     for (var [key, value] of Object.entries(variabili)) {
       // console.log(`${key}: ${value}`);
@@ -213,6 +224,10 @@ function loadNazionali(ctx, options, perc){
               prev = value;
               return 0;
             }
+            res = (value - prev);
+            prev = value;
+            return res;
+
             var res = (value - prev) / prev;
             prev = value;
             if (res > 1) return 100;
@@ -224,7 +239,7 @@ function loadNazionali(ctx, options, perc){
       });
       idx = idx + 1;
     }
-    options.data.datasets[9].hidden = true;
+    options.data.datasets[options.data.datasets.length - 1].hidden = true;
     if (!perc) options.data.datasets.push({
       backgroundColor: window.chartColors.blue,
       borderColor: window.chartColors.blue,
@@ -325,6 +340,9 @@ function loadRegione(ctx, options, cod, perc){
       totale_casi:                 undefined, // window.chartColors.orange,
       tamponi:                     undefined, // window.chartColors.yellow
     };
+    if (perc == 'TREND') {
+      delete variabili['nuovi_attualmente_positivi'];
+    }
     var idx = 0;
     for (var [key, value] of Object.entries(variabili)) {
       // console.log(`${key}: ${value}`);
@@ -341,6 +359,10 @@ function loadRegione(ctx, options, cod, perc){
           if (perc == 'SI') return (Math.round(value / window.popolazione[cod] * 10000) / 10000);
           if (perc == 'TREND') {
             if (prev == 'ND') prev = value;
+            res = (value - prev);
+            prev = value;
+            return res;
+
             var res = (prev == 0 ? 0 : ((value - prev) / prev));
             prev = value;
             if (res > 1) return 100;
@@ -352,7 +374,7 @@ function loadRegione(ctx, options, cod, perc){
       });
       idx = idx + 1;
     }
-    options.data.datasets[9].hidden = true;
+    options.data.datasets[options.data.datasets.length - 1].hidden = true;
     if (perc != 'SI') options.data.datasets.push({
       backgroundColor: window.chartColors.blue,
       borderColor: window.chartColors.blue,
