@@ -16,8 +16,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.4.0/chartjs-plugin-colorschemes.min.js"></script>
 
-    <!-- link href="index.css" rel="stylesheet"-->
+    <link href="index.css" rel="stylesheet">
+    <script src="js/utils.js"></script>
     <script src="js/dati.js"></script>
     <script src="js/grafici.js"></script>
     <script src="js/main.js"></script>
@@ -84,14 +86,14 @@
               Periodo
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <a class="dropdown-item" href="#oggiabs">Oggi Assoluti</a>
-              <a class="dropdown-item" href="#oggiprc">Oggi Percentuali</a>
+              <!-- a class="dropdown-item" href="#oggiabs">Oggi Assoluti</a>
+              <a class="dropdown-item" href="#oggiprc">Oggi Percentuali</a -->
               <a class="dropdown-item" href="#histabs">Storico Assoluti</a>
               <a class="dropdown-item" href="#histprc">Storico Percentuale</a>
               <a class="dropdown-item" href="#histinc">Storico Incremento</a>
-              <a class="dropdown-item" href="#100cabs">Dai 100 casi Assoluti</a>
+              <!-- a class="dropdown-item" href="#100cabs">Dai 100 casi Assoluti</a>
               <a class="dropdown-item" href="#100cprc">Dai 100 casi Percentuale</a>
-              <a class="dropdown-item" href="#100cinc">Dai 100 casi Incremento</a>
+              <a class="dropdown-item" href="#100cinc">Dai 100 casi Incremento</a -->
             </div>
           </div>
 
@@ -102,12 +104,12 @@
               Indice
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <a class="dropdown-item" href="#confirmed">Totale casi</a>
+              <!-- a class="dropdown-item" href="#confirmed">Totale casi</a>
               <a class="dropdown-item" href="#deaths">Deceduti</a>
-              <a class="dropdown-item" href="#recovered">Terapia intensiva</a>
+              <a class="dropdown-item" href="#recovered">Terapia intensiva</a -->
 
               <a class="dropdown-item" href="#tutti">Tutti</a>
-              <a class="dropdown-item" href="#province">Province</a>
+              <!-- a class="dropdown-item" href="#province">Province</a>
               <a class="dropdown-item" href="#ricoverati_con_sintomi">Ricoverati con sintomi</a>
               <a class="dropdown-item" href="#terapia_intensiva">Terapia intensiva</a>
               <a class="dropdown-item" href="#totale_ospedalizzati">Totale ospedalizzati</a>
@@ -117,14 +119,19 @@
               <a class="dropdown-item" href="#dimessi_guariti">Dimessi guariti</a>
               <a class="dropdown-item" href="#deceduti">Deceduti</a>
               <a class="dropdown-item" href="#totale_casi">Totale casi</a>
-              <a class="dropdown-item" href="#tamponi">Tamponi</a>
+              <a class="dropdown-item" href="#tamponi">Tamponi</a -->
             </div>
           </div>
 
         </div>
       </div>
-      <h2>Grafico</h2>
-      <canvas id="canvas"></canvas>
+      <div class="container grafico" style="clear: both;">
+        <div class="row">
+          <div class="col-12" style="min-height: 450px;">
+            <canvas id="canvas"></canvas>
+          </div>
+        </div>
+      </div>
       
       <!--h2>Dati Grezzi</h2>
       <div class="table-responsive">

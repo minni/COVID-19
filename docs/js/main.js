@@ -11,25 +11,31 @@ $(function(){
   var query = getUrlVars();
   $.viz_area    = (query.area    || 'italia' ),
   $.viz_regione = (query.regione || 'tutte'  ),
-  $.viz_periodo = (query.periodo || 'oggiabs'),
+  $.viz_periodo = (query.periodo || 'histinc'),
   $.viz_indici  = (query.indici  || 'tutti'  );
 
-  $('div#area a').on('click', function(){
+  $('div#area a').on('click', function(e){
+    e.preventDefault();
     $.viz_area = $(this).attr('href').substring(1);
-    $.ridisegnaMenu();    
+    $.ridisegnaMenu();
   });
-  $('div#regione a').on('click', function(){
+  $('div#regione a').on('click', function(e){
+    e.preventDefault();
     $.viz_regione = $(this).attr('href').substring(1);
-    $.ridisegnaMenu();    
+    $.ridisegnaMenu();
   });
-  $('div#periodo a').on('click', function(){
+  $('div#periodo a').on('click', function(e){
+    e.preventDefault();
     $.viz_periodo = $(this).attr('href').substring(1);
-    $.ridisegnaMenu();    
+    $.ridisegnaMenu();
   });
-  $('div#indici a').on('click', function(){
+  $('div#indici a').on('click', function(e){
+    e.preventDefault();
     $.viz_indici = $(this).attr('href').substring(1);
-    $.ridisegnaMenu();    
+    $.ridisegnaMenu();
   });
+
+  $.ctx = document.getElementById('canvas').getContext('2d');
 
   $.ridisegnaMenu = function(){
     console.log(
