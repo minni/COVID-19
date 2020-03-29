@@ -34,7 +34,7 @@
         </li>
       </ul -->
     </nav>
-    <main role="main">
+    <main role="main" style="min-width: 100vw; overflow: auto;">
       <div class="jumbotron" id="headerJumbo"
         style="padding-bottom: 5px; margin-bottom: 0px; padding-top: 60px;">
         <div class="container" style="padding: 0px;">
@@ -53,76 +53,79 @@
           </p>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 ml-sm-auto px-4">
+      <div class="container" style="padding: 0px;">
+        <div class="row">
+          <div class="col-12 ml-sm-auto px-4">
 
-          <div class="btn-group" role="group" id="area">
-            <button type="button" data-toggle="dropdown"
-              class="btn btn-outline-primary dropdown-toggle"
-              aria-haspopup="true" aria-expanded="false">
-              Area
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <a class="dropdown-item" href="#italia">Italia</a>
-              <a class="dropdown-item" href="#mondo">Mondo</a>
+            <div class="btn-group" role="group" id="area">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Area
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#italia">Italia</a>
+                <a class="dropdown-item" href="#mondo">Mondo</a>
+              </div>
             </div>
-          </div>
 
-          <div class="btn-group" role="group" id="regione">
-            <button type="button" data-toggle="dropdown"
-              class="btn btn-outline-primary dropdown-toggle"
-              aria-haspopup="true" aria-expanded="false">
-              Regione
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <a class="dropdown-item" href="#tutte">Tutte</a>
+            <div class="btn-group" role="group" id="regione">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Regione
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#tutte">Tutte</a>
+              </div>
             </div>
-          </div>
 
-          <div class="btn-group" role="group" id="periodo">
-            <button type="button" data-toggle="dropdown"
-              class="btn btn-outline-primary dropdown-toggle"
-              aria-haspopup="true" aria-expanded="false">
-              Periodo
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <!-- a class="dropdown-item" href="#oggiabs">Oggi Assoluti</a>
-              <a class="dropdown-item" href="#oggiprc">Oggi Percentuali</a -->
-              <a class="dropdown-item" href="#histabs">Storico Assoluti</a>
-              <a class="dropdown-item" href="#histprc">Storico Percentuale</a>
-              <a class="dropdown-item" href="#histinc">Storico Incremento</a>
-              <!-- a class="dropdown-item" href="#100cabs">Dai 100 casi Assoluti</a>
-              <a class="dropdown-item" href="#100cprc">Dai 100 casi Percentuale</a>
-              <a class="dropdown-item" href="#100cinc">Dai 100 casi Incremento</a -->
+            <div class="btn-group" role="group" id="periodo">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Periodo
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <!-- a class="dropdown-item" href="#oggiabs">Oggi Assoluti</a>
+                <a class="dropdown-item" href="#oggiprc">Oggi Percentuali</a -->
+                <a class="dropdown-item" href="#histabs">Storico Assoluti</a>
+                <a class="dropdown-item" href="#histprc">Storico Percentuale</a>
+                <a class="dropdown-item" href="#histinc">Storico Incremento</a>
+                <!-- a class="dropdown-item" href="#100cabs">Dai 100 casi Assoluti</a>
+                <a class="dropdown-item" href="#100cprc">Dai 100 casi Percentuale</a>
+                <a class="dropdown-item" href="#100cinc">Dai 100 casi Incremento</a -->
+              </div>
             </div>
-          </div>
 
-          <div class="btn-group" role="group" id="indici">
-            <button type="button" data-toggle="dropdown"
-              class="btn btn-outline-primary dropdown-toggle"
-              aria-haspopup="true" aria-expanded="false">
-              Indice
-            </button>
-            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <!-- a class="dropdown-item" href="#confirmed">Totale casi</a>
-              <a class="dropdown-item" href="#deaths">Deceduti</a>
-              <a class="dropdown-item" href="#recovered">Terapia intensiva</a -->
+            <div class="btn-group" role="group" id="indici">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Indice
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#tutti">Tutti</a>
 
-              <a class="dropdown-item" href="#tutti">Tutti</a>
-              <!-- a class="dropdown-item" href="#province">Province</a>
-              <a class="dropdown-item" href="#ricoverati_con_sintomi">Ricoverati con sintomi</a>
-              <a class="dropdown-item" href="#terapia_intensiva">Terapia intensiva</a>
-              <a class="dropdown-item" href="#totale_ospedalizzati">Totale ospedalizzati</a>
-              <a class="dropdown-item" href="#isolamento_domiciliare">Isolamento domiciliare</a>
-              <a class="dropdown-item" href="#totale_attualmente_positivi">Totale attualmente positivi</a>
-              <a class="dropdown-item" href="#nuovi_attualmente_positivi">Nuovi attualmente positivi</a>
-              <a class="dropdown-item" href="#dimessi_guariti">Dimessi guariti</a>
-              <a class="dropdown-item" href="#deceduti">Deceduti</a>
-              <a class="dropdown-item" href="#totale_casi">Totale casi</a>
-              <a class="dropdown-item" href="#tamponi">Tamponi</a -->
+                <a class="dropdown-item" href="#confirmed">Totale casi (Top 25)</a>
+                <a class="dropdown-item" href="#deaths">Deceduti (Top 25)</a>
+                <a class="dropdown-item" href="#recovered">Terapia intensiva (Top 25)</a>
+                
+                <!-- a class="dropdown-item" href="#province">Province</a>
+                <a class="dropdown-item" href="#ricoverati_con_sintomi">Ricoverati con sintomi</a>
+                <a class="dropdown-item" href="#terapia_intensiva">Terapia intensiva</a>
+                <a class="dropdown-item" href="#totale_ospedalizzati">Totale ospedalizzati</a>
+                <a class="dropdown-item" href="#isolamento_domiciliare">Isolamento domiciliare</a>
+                <a class="dropdown-item" href="#totale_attualmente_positivi">Totale attualmente positivi</a>
+                <a class="dropdown-item" href="#nuovi_attualmente_positivi">Nuovi attualmente positivi</a>
+                <a class="dropdown-item" href="#dimessi_guariti">Dimessi guariti</a>
+                <a class="dropdown-item" href="#deceduti">Deceduti</a>
+                <a class="dropdown-item" href="#totale_casi">Totale casi</a>
+                <a class="dropdown-item" href="#tamponi">Tamponi</a -->
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
       <div class="container grafico" style="clear: both;">

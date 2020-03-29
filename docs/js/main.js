@@ -11,7 +11,7 @@ $(function(){
   var query = getUrlVars();
   $.viz_area    = (query.area    || 'italia' ),
   $.viz_regione = (query.regione || 'tutte'  ),
-  $.viz_periodo = (query.periodo || 'histinc'),
+  $.viz_periodo = (query.periodo || 'histabs'),
   $.viz_indici  = (query.indici  || 'tutti'  );
 
   $('div#area a').on('click', function(e){
@@ -19,7 +19,8 @@ $(function(){
     $.viz_area = $(this).attr('href').substring(1);
     $.ridisegnaMenu();
   });
-  $('div#regione a').on('click', function(e){
+  $('div#regione').on('click', 'a', function(e){
+    console.log("click regione");
     e.preventDefault();
     $.viz_regione = $(this).attr('href').substring(1);
     $.ridisegnaMenu();
@@ -35,7 +36,10 @@ $(function(){
     $.ridisegnaMenu();
   });
 
-  $.ctx = document.getElementById('canvas').getContext('2d');
+  $.canvas = document.getElementById('canvas');
+  $.ctx = $.canvas.getContext('2d');
+
+  $.caricaPopolazione();
 
   $.ridisegnaMenu = function(){
     console.log(
@@ -59,13 +63,15 @@ $(function(){
     if ($.viz_area == 'mondo') {
       $('div#regione').hide();
       $('div#indici  a').hide();
+      $('div#indici a[href="#tutti"]').show();
       $('div#indici a[href="#confirmed"]').show();
       $('div#indici a[href="#deaths"]').show();
       $('div#indici a[href="#recovered"]').show();
-      if ($.viz_indici != 'confirmed' &&
+      if ($.viz_indici != 'tutti' &&
+          $.viz_indici != 'confirmed' &&
           $.viz_indici != 'deaths' &&
           $.viz_indici != 'recovered') {
-        $.viz_indici = 'confirmed';
+        $.viz_indici = 'tutti';
         return $.ridisegnaMenu();
       }
     }
@@ -76,7 +82,7 @@ $(function(){
       if ($.viz_indici == 'confirmed' ||
           $.viz_indici == 'deaths' ||
           $.viz_indici == 'recovered') {
-        $.viz_indici = 'tutto';
+        $.viz_indici = 'tutti';
         return $.ridisegnaMenu();
       }
     }

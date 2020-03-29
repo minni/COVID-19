@@ -1,17 +1,73 @@
 $(function(){
   $.ridisegnaGrafico = function(){
     if ($.viz_area == 'italia') {
-      var dati = $.filtraDati($.variabili.it_vars),
+      var dati = $.datiRegioni.slice(),
           labels = $.labelsDati(),
-          variabili = $.variabili.it_vars;
+          variabili = Object.assign({}, $.variabili.it_vars);
+      if ($.viz_regione != 'tutte') {
+        dati = dati.filter(function(row){
+          return $.viz_regione == row.codice_regione ? true : false;
+        });
+      }
+      dati = $.filtraDati($.variabili.it_vars, dati);
       if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
       if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
       if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'italia');
     }
     if ($.viz_area == 'mondo') {
-      var dati = $.filtraDati($.variabili.wl_vars),
+      var dati = $.datiMondoConf.slice(),
           labels = $.labelsDati(),
-          variabili = $.variabili.wl_vars;
+          variabili = Object.assign({}, $.variabili.wl_vars);
+      if ($.viz_indici == 'confirmed' ||
+          $.viz_indici == 'deaths'    ||
+          $.viz_indici == 'recovered') {
+        var chiave = $.viz_indici;
+        dati = dati.filter(function(row){
+          if (!row[chiave]) return false;
+          if (parseInt(row[chiave]) < 1) return false;
+          if (!$.popolazione[row.stato]) {
+            console.log("MANCA!!! $.popolazione[row.stato]", row.stato);
+            return false;
+          }
+          if ($.popolazione[row.stato] < 10) return false;
+          return true;
+        });
+        var ultima = dati.map(function(row){ return row.data_ymd; });
+        ultima.sort();
+        ultima = ultima.slice(-1)[0];
+        var ultimi = dati.filter(function(row){
+          return row.data_ymd == ultima ? true : false;
+        });
+        if ($.viz_periodo == 'histprc') {
+          ultimi.map(function(row){
+            if (!row[chiave]) row[chiave] = 0;
+            row[chiave] = row[chiave] / ($.popolazione[row.stato] * 100000);
+            return row;
+          });
+        }
+        ultimi.sort(function(a,b){
+          if (a[chiave] > b[chiave]) return -1;
+          if (a[chiave] < b[chiave]) return 1;
+          return 0;
+        });
+        window.u = ultimi.slice();
+        ultimi = ultimi.map(function(row){ return row.stato; }).slice(0, 25);
+        dati = dati.filter(function(row){
+          if (row.data_ymd > ultima) return false;
+          return ultimi.includes(row.stato);
+        }).map(function(row){
+          row[row.stato] = row[chiave];
+          return row;
+        });
+        variabili = ultimi.reduce(function(tot, row){
+          tot[row] = row;
+          return tot;
+        }, {});
+        dati = $.filtraDati(variabili, dati);
+      } else {
+        dati = $.filtraDati($.variabili.wl_vars, dati);
+      }
+      
       if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
       if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
       if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'mondo');
@@ -19,12 +75,15 @@ $(function(){
     return alert("Grafico NON definito");
   };
 
-  $.filtraDati = function(variabili){
+  $.filtraDati = function(variabili, dati = false){
     var keys = Object.keys(variabili);
-    var dati = 'datiRegioni';
-    if ($.viz_area == 'italia' && $.viz_indici == 'province') dati = 'datiProvince';
-    if ($.viz_area == 'mondo') dati = 'datiMondoConf';
-    return $[dati].reduce(function(tot, row, idx){
+    if (!dati) {
+      dati = 'datiRegioni';
+      if ($.viz_area == 'italia' && $.viz_indici == 'province') dati = 'datiProvince';
+      if ($.viz_area == 'mondo') dati = 'datiMondoConf';
+      dati = $[dati];
+    }
+    return dati.reduce(function(tot, row, idx){
       keys.forEach(function(k){
         if (!tot[k]) tot[k] = {};
         if (!tot[k][row.data_ymd]) tot[k][row.data_ymd] = 0;
@@ -34,11 +93,14 @@ $(function(){
     }, {});
   };
 
-  $.labelsDati = function(){
-    var dati = 'datiRegioni';
-    if ($.viz_area == 'italia' && $.viz_indici == 'province') dati = 'datiProvince';
-    if ($.viz_area == 'mondo') dati = 'datiMondoConf';
-    return $[dati].reduce(function(tot, row){
+  $.labelsDati = function(dati = false){
+    if (!dati) {
+      dati = 'datiRegioni';
+      if ($.viz_area == 'italia' && $.viz_indici == 'province') dati = 'datiProvince';
+      if ($.viz_area == 'mondo') dati = 'datiMondoConf';
+      dati = $[dati];
+    }
+    return dati.reduce(function(tot, row){
       if (tot.includes(row.data_h)) return tot;
       tot.push(row.data_h);
       return tot;
@@ -56,6 +118,7 @@ $(function(){
   };
 
   $.lineGraph = function(dati, labels, variabili, filtro){
+    console.log("oo", $.base_hist_options);
     var options = Object.assign({}, $.base_hist_options);
     var keys = Object.keys(variabili);
 
@@ -63,8 +126,14 @@ $(function(){
     if (filtro == 'abs') options.options.scales.yAxes[0].scaleLabel.labelString = 'Persone';
     else if (filtro == 'inc') options.options.scales.yAxes[0].scaleLabel.labelString = 'Incremento';
     else options.options.scales.yAxes[0].scaleLabel.labelString = 'Perc. su 100.000';
+    if (filtro == 'inc') {
+      // options.type = 'bar';
+      variabili = Object.assign({}, variabili);
+      delete(variabili.nuovi_attualmente_positivi);
+      delete(dati.nuovi_attualmente_positivi);
+      keys = Object.keys(variabili);
+    }
 
-    window.dati = dati;
     options.data.datasets = [];
     for (var [key, value] of Object.entries(dati)) {
       var prev = 'ND';
@@ -82,8 +151,17 @@ $(function(){
     }
     // NASCONDO I TAMPONI
     if (variabili.tamponi) options.data.datasets[options.data.datasets.length - 1].hidden = true;
-    console.log("Graph", dati, labels, variabili, filtro, options);
-    window.options = options;
-    $.covidGraph = new Chart($.ctx, options);
+    
+    // console.log("Graph", dati, labels, variabili, filtro, options);
+    // window.options = options;
+    if ($.covidGraph) {
+      $.ctx.clearRect(0, 0, $.canvas.width, $.canvas.height);
+      // $.covidGraph.options = options;
+      // $.covidGraph.update();
+      delete($.covidGraph);
+      $.covidGraph = new Chart($.ctx, options);
+    } else {
+      $.covidGraph = new Chart($.ctx, options);
+    }
   };
 });
