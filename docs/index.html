@@ -1,163 +1,148 @@
 <!doctype html>
 <html lang="it">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Tomaso Minelli">
+    <meta name="generator" content="Sublime">
+    <title>COVID</title>
 
-  <title>Andamento COVID</title>
-  
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
-  <!-- script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.4.0/chartjs-plugin-colorschemes.min.js"></script -->
-  <!-- script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script -->
-  <!-- script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.4"></script -->
-  <script src="covid_word.js"></script>
-  <script src="covid_compare.js"></script>
-  <script src="covid_italia_escluso.js"></script>
-  <script src="covid_chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js" integrity="sha256-nZaxPHA2uAaquixjSDX19TmIlbRNCOrf5HO1oHl5p70=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.4.0/chartjs-plugin-colorschemes.min.js"></script>
 
-  <style>
-    canvas{
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-    }
-    @media (max-width: 992px) {
-      .grafico.container {
-        max-width: 100%;
-      }
-    }
-    #divDropRegioni {
-      height: auto;
-      max-height: calc(100vh - 200px);
-      overflow-x: hidden;
-    }
-    #divDropProvince {
-      height: auto;
-      max-height: calc(100vh - 200px);
-      overflow-x: hidden;
-    }
-  </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="?stato=ITA">COVID19</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-      data-target="#navbarCovid" aria-controls="navbarCovid"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarCovid">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <!--a class="nav-link" href="?stato=ITA">Italia</a-->
-          <a class="nav-link dropdown-toggle" href="#"
-            id="dropItalia" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Italia
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropItalia" id="divDropItalia">
-            <a class="dropdown-item" href="?stato=ITA">Italia</a>
-            <a class="dropdown-item" href="?stato=ITA-NOLOMB">Italia Esclusa Lombardia</a>
+    <link href="index.css" rel="stylesheet">
+    <script src="js/utils.js"></script>
+    <script src="js/dati.js"></script>
+    <script src="js/grafici.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow"
+      style="max-width: 100vw;">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">COVID-19</a>
+      <!-- ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Sign out</a>
+        </li>
+      </ul -->
+    </nav>
+    <main role="main" style="min-width: 100vw; min-height: 100vh; overflow: auto;">
+      <div class="jumbotron" id="headerJumbo"
+        style="padding-bottom: 5px; margin-bottom: 0px; padding-top: 60px;">
+        <div class="container" style="padding: 0px;">
+          <div class="jumboTitle">
+            <h3 class="display-5">
+              Andamento COVID-19
+            </h3>
           </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"
-            id="dropRegioni" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Dettaglio Regione
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropRegioni" id="divDropRegioni"><a class="dropdown-item" href="?codice_regione=13">Abruzzo</a><a class="dropdown-item" href="?codice_regione=17">Basilicata</a><a class="dropdown-item" href="?codice_regione=18">Calabria</a><a class="dropdown-item" href="?codice_regione=15">Campania</a><a class="dropdown-item" href="?codice_regione=8">Emilia Romagna</a><a class="dropdown-item" href="?codice_regione=6">Friuli Venezia Giulia</a><a class="dropdown-item" href="?codice_regione=12">Lazio</a><a class="dropdown-item" href="?codice_regione=7">Liguria</a><a class="dropdown-item" href="?codice_regione=3">Lombardia</a><a class="dropdown-item" href="?codice_regione=11">Marche</a><a class="dropdown-item" href="?codice_regione=14">Molise</a><a class="dropdown-item" href="?codice_regione=1">Piemonte</a><a class="dropdown-item" href="?codice_regione=16">Puglia</a><a class="dropdown-item" href="?codice_regione=20">Sardegna</a><a class="dropdown-item" href="?codice_regione=19">Sicilia</a><a class="dropdown-item" href="?codice_regione=4">Trentino-Alto Adige</a><a class="dropdown-item" href="?codice_regione=9">Toscana</a><a class="dropdown-item" href="?codice_regione=10">Umbria</a><a class="dropdown-item" href="?codice_regione=2">Valle d'Aosta</a><a class="dropdown-item" href="?codice_regione=5">Veneto</a></div>
-        </li>
-        <li class="nav-item dropdown" id="menu_province">
-          <a class="nav-link dropdown-toggle" href="#"
-            id="dropProvince" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Dettaglio Provincia
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropProvince" id="divDropProvince"><a class="dropdown-item" cod_reg="13" href="?codice_provincia=69">Chieti</a><a class="dropdown-item" cod_reg="13" href="?codice_provincia=66">L'Aquila</a><a class="dropdown-item" cod_reg="13" href="?codice_provincia=68">Pescara</a><a class="dropdown-item" cod_reg="13" href="?codice_provincia=67">Teramo</a><a class="dropdown-item" cod_reg="17" href="?codice_provincia=77">Matera</a><a class="dropdown-item" cod_reg="17" href="?codice_provincia=76">Potenza</a><a class="dropdown-item" cod_reg="4" href="?codice_provincia=21">Bolzano</a><a class="dropdown-item" cod_reg="18" href="?codice_provincia=79">Catanzaro</a><a class="dropdown-item" cod_reg="18" href="?codice_provincia=78">Cosenza</a><a class="dropdown-item" cod_reg="18" href="?codice_provincia=101">Crotone</a><a class="dropdown-item" cod_reg="18" href="?codice_provincia=80">Reggio di Calabria</a><a class="dropdown-item" cod_reg="18" href="?codice_provincia=102">Vibo Valentia</a><a class="dropdown-item" cod_reg="15" href="?codice_provincia=64">Avellino</a><a class="dropdown-item" cod_reg="15" href="?codice_provincia=62">Benevento</a><a class="dropdown-item" cod_reg="15" href="?codice_provincia=61">Caserta</a><a class="dropdown-item" cod_reg="15" href="?codice_provincia=63">Napoli</a><a class="dropdown-item" cod_reg="15" href="?codice_provincia=65">Salerno</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=37">Bologna</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=38">Ferrara</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=40">Forlì-Cesena</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=36">Modena</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=34">Parma</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=33">Piacenza</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=39">Ravenna</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=35">Reggio nell'Emilia</a><a class="dropdown-item" cod_reg="8" href="?codice_provincia=99">Rimini</a><a class="dropdown-item" cod_reg="6" href="?codice_provincia=31">Gorizia</a><a class="dropdown-item" cod_reg="6" href="?codice_provincia=93">Pordenone</a><a class="dropdown-item" cod_reg="6" href="?codice_provincia=32">Trieste</a><a class="dropdown-item" cod_reg="6" href="?codice_provincia=30">Udine</a><a class="dropdown-item" cod_reg="12" href="?codice_provincia=60">Frosinone</a><a class="dropdown-item" cod_reg="12" href="?codice_provincia=59">Latina</a><a class="dropdown-item" cod_reg="12" href="?codice_provincia=57">Rieti</a><a class="dropdown-item" cod_reg="12" href="?codice_provincia=58">Roma</a><a class="dropdown-item" cod_reg="12" href="?codice_provincia=56">Viterbo</a><a class="dropdown-item" cod_reg="7" href="?codice_provincia=10">Genova</a><a class="dropdown-item" cod_reg="7" href="?codice_provincia=8">Imperia</a><a class="dropdown-item" cod_reg="7" href="?codice_provincia=11">La Spezia</a><a class="dropdown-item" cod_reg="7" href="?codice_provincia=9">Savona</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=16">Bergamo</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=17">Brescia</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=13">Como</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=19">Cremona</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=97">Lecco</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=98">Lodi</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=20">Mantova</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=15">Milano</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=108">Monza e della Brianza</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=18">Pavia</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=14">Sondrio</a><a class="dropdown-item" cod_reg="3" href="?codice_provincia=12">Varese</a><a class="dropdown-item" cod_reg="11" href="?codice_provincia=42">Ancona</a><a class="dropdown-item" cod_reg="11" href="?codice_provincia=44">Ascoli Piceno</a><a class="dropdown-item" cod_reg="11" href="?codice_provincia=109">Fermo</a><a class="dropdown-item" cod_reg="11" href="?codice_provincia=43">Macerata</a><a class="dropdown-item" cod_reg="11" href="?codice_provincia=41">Pesaro e Urbino</a><a class="dropdown-item" cod_reg="14" href="?codice_provincia=70">Campobasso</a><a class="dropdown-item" cod_reg="14" href="?codice_provincia=94">Isernia</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=6">Alessandria</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=5">Asti</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=96">Biella</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=4">Cuneo</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=3">Novara</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=1">Torino</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=103">Verbano-Cusio-Ossola</a><a class="dropdown-item" cod_reg="1" href="?codice_provincia=2">Vercelli</a><a class="dropdown-item" cod_reg="16" href="?codice_provincia=72">Bari</a><a class="dropdown-item" cod_reg="16" href="?codice_provincia=110">Barletta-Andria-Trani</a><a class="dropdown-item" cod_reg="16" href="?codice_provincia=74">Brindisi</a><a class="dropdown-item" cod_reg="16" href="?codice_provincia=71">Foggia</a><a class="dropdown-item" cod_reg="16" href="?codice_provincia=75">Lecce</a><a class="dropdown-item" cod_reg="16" href="?codice_provincia=73">Taranto</a><a class="dropdown-item" cod_reg="20" href="?codice_provincia=92">Cagliari</a><a class="dropdown-item" cod_reg="20" href="?codice_provincia=91">Nuoro</a><a class="dropdown-item" cod_reg="20" href="?codice_provincia=95">Oristano</a><a class="dropdown-item" cod_reg="20" href="?codice_provincia=90">Sassari</a><a class="dropdown-item" cod_reg="20" href="?codice_provincia=111">Sud Sardegna</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=84">Agrigento</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=85">Caltanissetta</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=87">Catania</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=86">Enna</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=83">Messina</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=82">Palermo</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=88">Ragusa</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=89">Siracusa</a><a class="dropdown-item" cod_reg="19" href="?codice_provincia=81">Trapani</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=51">Arezzo</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=48">Firenze</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=53">Grosseto</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=49">Livorno</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=46">Lucca</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=45">Massa Carrara</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=50">Pisa</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=47">Pistoia</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=100">Prato</a><a class="dropdown-item" cod_reg="9" href="?codice_provincia=52">Siena</a><a class="dropdown-item" cod_reg="4" href="?codice_provincia=22">Trento</a><a class="dropdown-item" cod_reg="10" href="?codice_provincia=54">Perugia</a><a class="dropdown-item" cod_reg="10" href="?codice_provincia=55">Terni</a><a class="dropdown-item" cod_reg="2" href="?codice_provincia=7">Aosta</a><a class="dropdown-item" cod_reg="5" href="?codice_provincia=25">Belluno</a><a class="dropdown-item" cod_reg="5" href="?codice_provincia=28">Padova</a><a class="dropdown-item" cod_reg="5" href="?codice_provincia=29">Rovigo</a><a class="dropdown-item" cod_reg="5" href="?codice_provincia=26">Treviso</a><a class="dropdown-item" cod_reg="5" href="?codice_provincia=27">Venezia</a><a class="dropdown-item" cod_reg="5" href="?codice_provincia=23">Verona</a><a class="dropdown-item" cod_reg="5" href="?codice_provincia=24">Vicenza</a></div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"
-            id="dropRegCon" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Confronta regiorni
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropRegioni" id="divDropRegCon">
-            <a class="dropdown-item" href="?confronta=ricoverati_con_sintomi">Ricoverati con sintomi</a>
-            <a class="dropdown-item" href="?confronta=terapia_intensiva">Terapia intensiva</a>
-            <a class="dropdown-item" href="?confronta=totale_ospedalizzati">Totale ospedalizzati</a>
-            <a class="dropdown-item" href="?confronta=isolamento_domiciliare">Isolamento domiciliare</a>
-            <a class="dropdown-item" href="?confronta=totale_attualmente_positivi">Totale attualmente positivi</a>
-            <a class="dropdown-item" href="?confronta=nuovi_attualmente_positivi">Nuovi attualmente positivi</a>
-            <a class="dropdown-item" href="?confronta=dimessi_guariti">Dimessi guariti</a>
-            <a class="dropdown-item" href="?confronta=deceduti">Deceduti</a>
-            <a class="dropdown-item" href="?confronta=totale_casi">Totale casi</a>
-            <a class="dropdown-item" href="?confronta=tamponi">Tamponi</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"
-            id="dropMondo" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Mondo
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropMondo" id="divDropMondo">
-            <a class="dropdown-item" href="?mondo=Confirmed">Casi</a>
-            <a class="dropdown-item" href="?mondo=Recovered">Ricoveri</a>
-            <a class="dropdown-item" href="?mondo=Deaths">Decessi</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <main role="main">
-    <div class="jumbotron" id="headerJumbo" style="padding-bottom: 5px; margin-bottom: 0px; padding-top: 60px;">
-      <div class="container">
-        <div class="jumboTitle" style="clear: both;">
-          <h3 class="display-5" style="float: left; display: inline-block;">
-            Andamento COVID in Italia
-          </h3>
-          <div class="btn-group" role="group" aria-label="Second group"
-            style="float: right; display: inline-block;">
-            <a class="btn btn-sm perc"  href="" role="button">Percentuale</a>
-            <a class="btn btn-sm abs"   href="" role="button">Assoluti</a>
-            <a class="btn btn-sm trend" href="" role="button">Trend</a>
-          </div>
-        </div>
-        <p style="clear: both;"></p>
-        <p class="d-none d-md-block d-lg-block d-xl-block italy">
-          Caricamento dati dai dati della protezione civile in <br />
-          <a href="https://github.com/pcm-dpc/COVID-19">https://github.com/pcm-dpc/COVID-19</a>
-        </p>
-        <p class="d-none d-md-block d-lg-block d-xl-block mondo" style="display: none!important;">
-          Caricamento dati dai dati Johns Hopkins in <br />
-          <a href="https://github.com/CSSEGISandData/COVID-19">https://github.com/CSSEGISandData/COVID-19</a>
-        </p>
-        <p id="status" style="clear: both;">Caricamento dati in corso...</p>
-        <!--p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p -->
-      </div>
-    </div>
-
-    <div class="container grafico" style="clear: both;">
-      <div class="row">
-        <div class="col-12" style="min-height: 450px;">
-          <canvas id="canvas"></canvas>
+          <p class="d-none d-md-block d-lg-block d-xl-block italy">
+            Dati italiani della protezione civile in 
+            <a href="https://github.com/pcm-dpc/COVID-19">https://github.com/pcm-dpc/COVID-19</a>
+          </p>
+          <p class="d-none d-md-block d-lg-block d-xl-block mondo">
+            Dati mondiali della Johns Hopkins in 
+            <a href="https://github.com/CSSEGISandData/COVID-19">https://github.com/CSSEGISandData/COVID-19</a>
+          </p>
         </div>
       </div>
-    </div>
-  </main>
+      <div class="container" style="padding: 0px;">
+        <div class="row">
+          <div class="col-12 ml-sm-auto px-4">
 
-  <footer class="container" style="text-align: right;">
-    <p>&copy; Tomaso Minelli 2020</p>
-  </footer>
-</body>
+            <div class="btn-group" role="group" id="area">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Area
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#italia">Italia</a>
+                <a class="dropdown-item" href="#mondo">Mondo</a>
+              </div>
+            </div>
+
+            <div class="btn-group" role="group" id="regione">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Regione
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#tutte">Tutte</a>
+              </div>
+            </div>
+
+            <div class="btn-group" role="group" id="periodo">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Periodo
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <!-- a class="dropdown-item" href="#oggiabs">Oggi Assoluti</a>
+                <a class="dropdown-item" href="#oggiprc">Oggi Percentuali</a -->
+                <a class="dropdown-item" href="#histabs">Storico Assoluti</a>
+                <a class="dropdown-item" href="#histprc">Storico Percentuale</a>
+                <a class="dropdown-item" href="#histinc">Storico Incremento</a>
+                <!-- a class="dropdown-item" href="#100cabs">Dai 100 casi Assoluti</a>
+                <a class="dropdown-item" href="#100cprc">Dai 100 casi Percentuale</a>
+                <a class="dropdown-item" href="#100cinc">Dai 100 casi Incremento</a -->
+              </div>
+            </div>
+
+            <div class="btn-group" role="group" id="indici">
+              <button type="button" data-toggle="dropdown"
+                class="btn btn-outline-primary dropdown-toggle"
+                aria-haspopup="true" aria-expanded="false">
+                Indice
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#tutti">Tutti</a>
+
+                <a class="dropdown-item" href="#confirmed">Totale casi (Top 15)</a>
+                <a class="dropdown-item" href="#deaths">Deceduti (Top 15)</a>
+                <a class="dropdown-item" href="#recovered">Terapia intensiva (Top 15)</a>
+                
+                <!-- a class="dropdown-item" href="#province">Province</a>
+                <a class="dropdown-item" href="#ricoverati_con_sintomi">Ricoverati con sintomi</a>
+                <a class="dropdown-item" href="#terapia_intensiva">Terapia intensiva</a>
+                <a class="dropdown-item" href="#totale_ospedalizzati">Totale ospedalizzati</a>
+                <a class="dropdown-item" href="#isolamento_domiciliare">Isolamento domiciliare</a>
+                <a class="dropdown-item" href="#totale_attualmente_positivi">Totale attualmente positivi</a>
+                <a class="dropdown-item" href="#nuovi_attualmente_positivi">Nuovi attualmente positivi</a>
+                <a class="dropdown-item" href="#dimessi_guariti">Dimessi guariti</a>
+                <a class="dropdown-item" href="#deceduti">Deceduti</a>
+                <a class="dropdown-item" href="#totale_casi">Totale casi</a>
+                <a class="dropdown-item" href="#tamponi">Tamponi</a -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="container grafico" style="clear: both;">
+        <div class="row">
+          <div class="col-12" style="min-height: 450px;">
+            <canvas id="canvas"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!--h2>Dati Grezzi</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead><tr></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div-->
+    </main>
+  </body>
 </html>
