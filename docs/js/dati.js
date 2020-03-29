@@ -99,7 +99,7 @@ $(function(){
   };
 
   $.parseDatiMondoGrezzi = function(dati_grezzi, chiave){
-    // console.log("Carico", chiave);
+    console.log("Carico", chiave);
     if (!$.datiMondoConf) $.datiMondoConf = {};
       
     var result  = Object.assign({}, $.datiMondoConf);

@@ -8,12 +8,25 @@ $(function(){
     return vars;
   }
 
+  // PER DEBUG
+  // $.ppp = function(){
+  //   return $.datiMondoConf.filter(function(row){
+  //     if (row.stato == 'Denmark') return true;
+  //     return false;
+  //   }).slice(-1)[0].confirmed;
+  // };
+
   var query = getUrlVars();
-  $.viz_area    = (query.area    || 'italia' ),
-  $.viz_regione = (query.regione || 'tutte'  ),
-  $.viz_periodo = (query.periodo || 'histabs'),
+  $.viz_area    = (query.area    || 'italia' );
+  $.viz_regione = (query.regione || 'tutte'  );
+  $.viz_periodo = (query.periodo || 'histabs');
   $.viz_indici  = (query.indici  || 'tutti'  );
 
+  $.viz_area    = (query.area    || 'mondo'  );
+  $.viz_regione = (query.regione || 'tutte'  );
+  $.viz_periodo = (query.periodo || 'histabs');
+  $.viz_indici  = (query.indici  || 'confirmed');
+  
   $('div#area a').on('click', function(e){
     e.preventDefault();
     $.viz_area = $(this).attr('href').substring(1);

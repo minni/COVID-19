@@ -21,68 +21,109 @@ $(function(){
       if ($.viz_indici == 'confirmed' ||
           $.viz_indici == 'deaths'    ||
           $.viz_indici == 'recovered') {
-        var chiave = $.viz_indici;
+        var chiave = $.viz_indici + '';
+        // RIMUOVO DATI inutilizzabili
         dati = dati.filter(function(row){
-          if (!row[chiave]) return false;
-          if (parseInt(row[chiave]) < 1) return false;
-          if (!$.popolazione[row.stato]) {
-            console.log("MANCA!!! $.popolazione[row.stato]", row.stato);
-            return false;
-          }
+          if (!$.popolazione[row.stato]) console.log("MANCA!!! $.popolazione[row.stato]", row.stato);
+          if (!$.popolazione[row.stato]) return false;
           if ($.popolazione[row.stato] < 10) return false;
+          // if (!row[chiave]) return false;
           return true;
         });
-        var ultima = dati.map(function(row){ return row.data_ymd; });
-        ultima.sort();
-        ultima = ultima.slice(-1)[0];
-        var ultimi = dati.filter(function(row){
-          return row.data_ymd == ultima ? true : false;
+        var ultimo_giorno = dati.reduce(function(tot, row){
+          if (!row[chiave]) return tot;
+          if (row.data_ymd > tot) tot = row.data_ymd;
+          return tot;
+        }, '2000-01-01');
+        // if ($.ppp() != 2366) debugger;
+        var dati_ultimo_giorno = dati.slice().filter(function(row){
+          return row.data_ymd == ultimo_giorno;
         });
+        // if ($.ppp() != 2366) debugger;
         if ($.viz_periodo == 'histprc') {
-          ultimi.map(function(row){
-            if (!row[chiave]) row[chiave] = 0;
-            row[chiave] = row[chiave] / ($.popolazione[row.stato] * 100000);
-            return row;
+          dati_ultimo_giorno = dati_ultimo_giorno.map(function(i){
+            // SE SCRICO i[chiave] / ($.popolazione[i.stato] * 100000); MI SBALLA L?ARRAY...
+            i.tot = i[chiave] / ($.popolazione[i.stato] * 100000);
+            return i;
           });
         }
-        ultimi.sort(function(a,b){
+        // if ($.ppp() != 2366) debugger;
+        dati_ultimo_giorno.sort(function(a,b){
+          if (a.tot > b.tot) return -1;
+          if (a.tot < b.tot) return 1;
           if (a[chiave] > b[chiave]) return -1;
           if (a[chiave] < b[chiave]) return 1;
           return 0;
         });
-        window.u = ultimi.slice();
-        ultimi = ultimi.map(function(row){ return row.stato; }).slice(0, 25);
+        // if ($.ppp() != 2366) debugger;
+        var primi_15 = dati_ultimo_giorno.map(function(row){ return row.stato; }).slice(0, 15);
+
         dati = dati.filter(function(row){
-          if (row.data_ymd > ultima) return false;
-          return ultimi.includes(row.stato);
+          return primi_15.includes(row.stato) ? true : false;
         }).map(function(row){
           row[row.stato] = row[chiave];
           return row;
         });
-        variabili = ultimi.reduce(function(tot, row){
+
+        variabili = primi_15.reduce(function(tot, row){
           tot[row] = row;
           return tot;
         }, {});
+
+        // var ultima = dati.map(function(row){ return row.data_ymd; });
+        // ultima.sort();
+        // ultima = ultima.slice(-1)[0];
+        // var ultimi = dati.filter(function(row){
+        //   return row.data_ymd == ultima ? true : false;
+        // });
+        // if ($.viz_periodo == 'histprc') {
+        //   ultimi.map(function(row){
+        //     if (!row[chiave]) row[chiave] = 0;
+        //     row[chiave] = row[chiave] / ($.popolazione[row.stato] * 100000);
+        //     return row;
+        //   });
+        // }
+        // ultimi.sort(function(a,b){
+        //   if (a[chiave] > b[chiave]) return -1;
+        //   if (a[chiave] < b[chiave]) return 1;
+        //   return 0;
+        // });
+        // window.u = ultimi.slice();
+        // ultimi = ultimi.map(function(row){ return row.stato; }).slice(0, 25);
+        // dati = $.datiMondoConf.slice().filter(function(row){
+        //   // if (!row[chiave]) return false;
+        //   // if (parseInt(row[chiave]) < 1) return false;
+        //   // if (!$.popolazione[row.stato]) return false;
+        //   // if ($.popolazione[row.stato] < 10) return false;
+        //   if (row.data_ymd > ultima) return false;
+        //   return ultimi.includes(row.stato) ? true : false;
+        // }).map(function(row){
+        //   row[row.stato] = row[chiave];
+        //   return row;
+        // });
+        // variabili = ultimi.reduce(function(tot, row){
+        //   tot[row] = row;
+        //   return tot;
+        // }, {});
+        // if (chiave == 'confirmed') variabili = {confirmed: 'CONF'};
+        // if (chiave == 'deaths'   ) variabili = {deaths:    'MORT'};
+        // if (chiave == 'recovered') variabili = {recovered: 'RECV'};
         dati = $.filtraDati(variabili, dati);
+        if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'stato');
       } else {
-        dati = $.filtraDati($.variabili.wl_vars, dati);
+        dati = $.filtraDati(variabili, dati);
+        if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'mondo');
       }
       
       if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
       if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
-      if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'mondo');
+      // if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'prc');
     }
     return alert("Grafico NON definito");
   };
 
-  $.filtraDati = function(variabili, dati = false){
+  $.filtraDati = function(variabili, dati){
     var keys = Object.keys(variabili);
-    if (!dati) {
-      dati = 'datiRegioni';
-      if ($.viz_area == 'italia' && $.viz_indici == 'province') dati = 'datiProvince';
-      if ($.viz_area == 'mondo') dati = 'datiMondoConf';
-      dati = $[dati];
-    }
     return dati.reduce(function(tot, row, idx){
       keys.forEach(function(k){
         if (!tot[k]) tot[k] = {};
@@ -98,7 +139,7 @@ $(function(){
       dati = 'datiRegioni';
       if ($.viz_area == 'italia' && $.viz_indici == 'province') dati = 'datiProvince';
       if ($.viz_area == 'mondo') dati = 'datiMondoConf';
-      dati = $[dati];
+      dati = $[dati].slice();
     }
     return dati.reduce(function(tot, row){
       if (tot.includes(row.data_h)) return tot;
@@ -111,6 +152,14 @@ $(function(){
     if (type == 'abs') return value;
     if (type == 'inc' && prev == 'ND') return 0;
     if (type == 'inc') return (value - prev);
+    if (type == 'stato') {
+      console.log("SS", value, key, type, prev);
+      return value;
+    }
+    console.log("PPPPPPPPP");
+    // if (key == 'confirmed') return value;
+    // if (key == 'deaths'   ) return value;
+    // if (key == 'recovered') return value;
     if ($.popolazione[type]) return (Math.round(value / $.popolazione[type] * 1000) / 1000);
     if ($.popolazione[key]) return (Math.round(value / $.popolazione[key] * 1000) / 1000);
     console.log("Manca POP", key);
