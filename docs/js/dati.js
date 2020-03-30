@@ -1,5 +1,5 @@
 $(function(){
-  $.caricaPopolazione = function(){
+  $.caricaPopolazione = function(on_complete){
     var json_url = "https://raw.githubusercontent.com/samayo/country-json/master/src/country-by-population.json";
     $.getJSON(json_url, function(dati_grezzi) {
       var mondo = 0;
@@ -31,6 +31,8 @@ $(function(){
       // $.popolazione['Kosovo'] = $.popolazione[''];
       // $.popolazione['Burma'] = $.popolazione[''];
       // $.popolazione['MS Zaandam'] = $.popolazione[''];
+
+      on_complete();
     });
   };
 
@@ -44,7 +46,7 @@ $(function(){
         d.data_h = (
           ("00" + d.data_js.getDate()).slice(-2) + '.' +
           ("00" + (d.data_js.getMonth() + 1)).slice(-2) + '.' +
-          d.data_js.getYear()
+          d.data_js.getFullYear()
         );
         return d;
       });
@@ -62,7 +64,7 @@ $(function(){
         d.data_h = (
           ("00" + d.data_js.getDate()).slice(-2) + '.' +
           ("00" + (d.data_js.getMonth() + 1)).slice(-2) + '.' +
-          d.data_js.getYear()
+          d.data_js.getFullYear()
         );
         return d;
       });
@@ -150,16 +152,17 @@ $(function(){
       }
     }
     if ($('#regione a').length < 2 && ($.datiRegioni || $.datiProvince)) {
-      var regioni = ($.datiRegioni || $.datiProvince).reduce(function(tot, row){
+      $.regioni = ($.datiRegioni || $.datiProvince).reduce(function(tot, row){
         var cod = row.denominazione_regione + '--' + row.codice_regione;
         if (tot.includes(cod)) return tot;
         tot.push(cod);
         return tot;
       }, []).sort();
-      regioni.forEach(function(row){
+      $.regioni.forEach(function(row){
         [descr, cod] = row.split('--');
+        if ($.viz_regione == cod) $('div#regione button').html(descr);
         $('#regione div.dropdown-menu').append(
-          '<a class="dropdown-item" href="#'+cod+'">' + descr + '</a>'
+          `<a class="dropdown-item" href="?area=italia&periodo=${$.viz_periodo}&indici=${$.viz_indici}&regione=${cod}">${descr}</a>`
         );
       });
     }

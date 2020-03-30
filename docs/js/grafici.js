@@ -4,15 +4,63 @@ $(function(){
       var dati = $.datiRegioni.slice(),
           labels = $.labelsDati(),
           variabili = Object.assign({}, $.variabili.it_vars);
-      if ($.viz_regione != 'tutte') {
-        dati = dati.filter(function(row){
-          return $.viz_regione == row.codice_regione ? true : false;
-        });
+      if ($.viz_indici == 'tutti') {
+        if ($.viz_regione != 'tutte') {
+          dati = dati.filter(function(row){
+            return $.viz_regione == row.codice_regione ? true : false;
+          });
+        }
+        dati = $.filtraDati($.variabili.it_vars, dati);
+        if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
+        if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
+        if ($.viz_periodo == 'histprc') {
+          if ($.viz_regione == 'tutte') {
+           return $.lineGraph(dati, labels, variabili, 'italia');
+          } else {
+            $.popolazione.regione = $.popolazione[$.viz_regione];
+            if ($.popolazione.regione) return $.lineGraph(dati, labels, variabili, 'regione');
+            alert("Popolazione delle regione non definita");
+          }
+        }
       }
-      dati = $.filtraDati($.variabili.it_vars, dati);
-      if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
-      if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
-      if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'italia');
+      if ($.viz_indici == 'province') {
+        dati = $.datiProvince.filter(function(row){
+          if (row.codice_regione == $.viz_regione) return true;
+          return false;
+        });
+        variabili = dati.reduce(function(tot, row){
+          if (row.codice_provincia > 900) return tot;
+          if (tot[row.codice_provincia]) return tot;
+          tot[row.codice_provincia] = row.denominazione_provincia;
+          return tot;
+        }, {});
+        dati = dati.map(function(row){
+          row[row.codice_provincia] = row.totale_casi;
+          return row;
+        });
+        labels = $.labelsDati(dati);
+        dati = $.filtraDati(variabili, dati);
+        if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
+        if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
+        // $.popolazione.regione = $.popolazione[$.viz_regione];
+        // if ($.popolazione.regione) return $.lineGraph(dati, labels, variabili, 'regione');
+        // alert("Popolazione delle regione non definita");
+      } else {
+        var chiave = $.viz_indici + '';
+        variabili = $.regioni.reduce(function(tot, row){
+          [descr, cod] = row.split('--');
+          tot[cod] = descr;
+          return tot;
+        }, {});
+        dati = dati.map(function(row){
+          row[row.codice_regione] = row[chiave];
+          return row;
+        });
+        dati = $.filtraDati(variabili, dati);
+        if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
+        if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
+        if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'regioni');
+      }
     }
     if ($.viz_area == 'mondo') {
       var dati = $.datiMondoConf.slice(),
@@ -42,7 +90,7 @@ $(function(){
         // if ($.ppp() != 2366) debugger;
         if ($.viz_periodo == 'histprc') {
           dati_ultimo_giorno = dati_ultimo_giorno.map(function(i){
-            // SE SCRICO i[chiave] / ($.popolazione[i.stato] * 100000); MI SBALLA L?ARRAY...
+            // SE SCRICO i[chiave] = i[chiave] / ($.popolazione[i.stato] * 100000); MI SBALLA L?ARRAY...
             i.tot = i[chiave] / ($.popolazione[i.stato] * 100000);
             return i;
           });
@@ -152,11 +200,13 @@ $(function(){
     if (type == 'abs') return value;
     if (type == 'inc' && prev == 'ND') return 0;
     if (type == 'inc') return (value - prev);
-    if (type == 'stato') {
-      console.log("SS", value, key, type, prev);
-      return value;
-    }
-    console.log("PPPPPPPPP");
+    if (type == 'stato') return (Math.round(value / $.popolazione[key] * 1000) / 1000);
+    if (type == 'italia') return (Math.round(value / $.popolazione.italia * 1000) / 1000);
+    if (type == 'regione') return (Math.round(value / $.popolazione.regione * 1000) / 1000);
+    if (type == 'regioni' && !$.popolazione[key]) console.log("Manca regionre", key);
+    if (type == 'regioni') return (Math.round(value / $.popolazione[key] * 1000) / 1000);
+    console.log("PRC", value, key, type, $.popolazione[key]);
+    if (type == 'regione') return value;
     // if (key == 'confirmed') return value;
     // if (key == 'deaths'   ) return value;
     // if (key == 'recovered') return value;

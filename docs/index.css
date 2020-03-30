@@ -10,12 +10,12 @@ canvas{
 }
 #regione div.dropdown-menu {
   height: auto;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 300px);
   overflow-x: hidden;
 }
 #divDropProvince {
   height: auto;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 300px);
   overflow-x: hidden;
 }
 #regione div.dropdown-menu.show {
