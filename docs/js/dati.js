@@ -41,6 +41,8 @@ $(function(){
     var json_url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-province.json";
     $.getJSON(json_url, function(dati_grezzi) {
       $.datiProvince = dati_grezzi.map(function(d){
+        if (d.codice_regione == 4) d.denominazione_regione = 'Trentino-Alto Adige';
+        d.percpos = d.tamponi ? (Math.floor(d.totale_casi / d.tamponi * 1000) / 100) : 0;
         d.data_js = new Date(d.data);
         d.data_ymd = d.data.split('T')[0];
         d.data_h = (
@@ -50,6 +52,14 @@ $(function(){
         );
         return d;
       });
+      if ($.viz_periodo.substr(0, 2) == '2w') {
+        var w2 = new Date();
+        w2.setDate(w2.getDate() - 22);
+        w2 = w2.toJSON().split('T')[0]
+        $.datiProvince = $.datiProvince.filter(function(row){
+          return row.data_ymd >= w2 ? true : false;
+        });
+      }
       $.caricaDati();
     });
   };
@@ -59,6 +69,8 @@ $(function(){
     var json_url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json";
     $.getJSON(json_url, function(dati_grezzi) {
       $.datiRegioni = dati_grezzi.map(function(d){
+        if (d.codice_regione == 4) d.denominazione_regione = 'Trentino-Alto Adige';
+        d.percpos = d.tamponi ? (Math.floor(d.totale_casi / d.tamponi * 1000) / 100) : 0;
         d.data_js = new Date(d.data);
         d.data_ymd = d.data.split('T')[0];
         d.data_h = (
@@ -68,6 +80,14 @@ $(function(){
         );
         return d;
       });
+      if ($.viz_periodo.substr(0, 2) == '2w') {
+        var w2 = new Date();
+        w2.setDate(w2.getDate() - 22);
+        w2 = w2.toJSON().split('T')[0]
+        $.datiRegioni = $.datiRegioni.filter(function(row){
+          return row.data_ymd >= w2 ? true : false;
+        });
+      }
       $.caricaDati();
     });
   };
@@ -149,6 +169,14 @@ $(function(){
         $.datiMondoConf = $.datiMondoConf.filter(function(row){
           return row.stato ? true : false;
         });
+        if ($.viz_periodo.substr(0, 2) == '2w') {
+          var w2 = new Date();
+          w2.setDate(w2.getDate() - 22);
+          w2 = w2.toJSON().split('T')[0]
+          $.datiMondoConf = $.datiMondoConf.filter(function(row){
+            return row.data_ymd >= w2 ? true : false;
+          });
+        }
       }
     }
     if ($('#regione a').length < 2 && ($.datiRegioni || $.datiProvince)) {

@@ -28,15 +28,15 @@ $(function(){
 
   $.variabili = {
     it_vars: {
-      ricoverati_con_sintomi: 'Ricoverati con sintomi',
-      terapia_intensiva: 'Terapia intensiva',
-      totale_ospedalizzati: 'Totale ospedalizzati',
+      totale_casi: 'Totale casi',
+      totale_positivi: 'Totale positivi',
       isolamento_domiciliare: 'Isolamento domiciliare',
-      totale_attualmente_positivi: 'Totale attualmente positivi',
-      nuovi_attualmente_positivi: 'Nuovi attualmente positivi',
+      totale_ospedalizzati: 'Totale ospedalizzati',
+      ricoverati_con_sintomi: 'Ricoverati con sintomi',
       dimessi_guariti: 'Dimessi guariti',
       deceduti: 'Deceduti',
-      totale_casi: 'Totale casi',
+      terapia_intensiva: 'Terapia intensiva',
+      nuovi_positivi: 'Nuovi positivi',
       tamponi: 'Tamponi',
     },
     wl_vars: {

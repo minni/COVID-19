@@ -11,9 +11,9 @@ $(function(){
           });
         }
         dati = $.filtraDati($.variabili.it_vars, dati);
-        if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
-        if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
-        if ($.viz_periodo == 'histprc') {
+        if ($.viz_periodo.substr(-3) == 'abs') return $.lineGraph(dati, labels, variabili, 'abs');
+        if ($.viz_periodo.substr(-3) == 'inc') return $.lineGraph(dati, labels, variabili, 'inc');
+        if ($.viz_periodo.substr(-3) == 'prc') {
           if ($.viz_regione == 'tutte') {
            return $.lineGraph(dati, labels, variabili, 'italia');
           } else {
@@ -40,8 +40,8 @@ $(function(){
         });
         labels = $.labelsDati(dati);
         dati = $.filtraDati(variabili, dati);
-        if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
-        if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
+        if ($.viz_periodo.substr(-3) == 'abs') return $.lineGraph(dati, labels, variabili, 'abs');
+        if ($.viz_periodo.substr(-3) == 'inc') return $.lineGraph(dati, labels, variabili, 'inc');
         // $.popolazione.regione = $.popolazione[$.viz_regione];
         // if ($.popolazione.regione) return $.lineGraph(dati, labels, variabili, 'regione');
         // alert("Popolazione delle regione non definita");
@@ -57,9 +57,9 @@ $(function(){
           return row;
         });
         dati = $.filtraDati(variabili, dati);
-        if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
-        if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
-        if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'regioni');
+        if ($.viz_periodo.substr(-3) == 'abs') return $.lineGraph(dati, labels, variabili, 'abs');
+        if ($.viz_periodo.substr(-3) == 'inc') return $.lineGraph(dati, labels, variabili, 'inc');
+        if ($.viz_periodo.substr(-3) == 'prc') return $.lineGraph(dati, labels, variabili, 'regioni');
       }
     }
     if ($.viz_area == 'mondo') {
@@ -88,7 +88,7 @@ $(function(){
           return row.data_ymd == ultimo_giorno;
         });
         // if ($.ppp() != 2366) debugger;
-        if ($.viz_periodo == 'histprc') {
+        if ($.viz_periodo.substr(-3) == 'prc') {
           dati_ultimo_giorno = dati_ultimo_giorno.map(function(i){
             // SE SCRICO i[chiave] = i[chiave] / ($.popolazione[i.stato] * 100000); MI SBALLA L?ARRAY...
             i.tot = i[chiave] / ($.popolazione[i.stato] * 100000);
@@ -157,14 +157,14 @@ $(function(){
         // if (chiave == 'deaths'   ) variabili = {deaths:    'MORT'};
         // if (chiave == 'recovered') variabili = {recovered: 'RECV'};
         dati = $.filtraDati(variabili, dati);
-        if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'stato');
+        if ($.viz_periodo.substr(-3) == 'prc') return $.lineGraph(dati, labels, variabili, 'stato');
       } else {
         dati = $.filtraDati(variabili, dati);
-        if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'mondo');
+        if ($.viz_periodo.substr(-3) == 'prc') return $.lineGraph(dati, labels, variabili, 'mondo');
       }
       
-      if ($.viz_periodo == 'histabs') return $.lineGraph(dati, labels, variabili, 'abs');
-      if ($.viz_periodo == 'histinc') return $.lineGraph(dati, labels, variabili, 'inc');
+      if ($.viz_periodo.substr(-3) == 'abs') return $.lineGraph(dati, labels, variabili, 'abs');
+      if ($.viz_periodo.substr(-3) == 'inc') return $.lineGraph(dati, labels, variabili, 'inc');
       // if ($.viz_periodo == 'histprc') return $.lineGraph(dati, labels, variabili, 'prc');
     }
     return alert("Grafico NON definito");
