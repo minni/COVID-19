@@ -1,6 +1,6 @@
 $(function(){
   $.ridisegnaGrafico = function(){
-    if ($.viz_area == 'italia') {
+    if ($.viz_area == 'italia' || $.viz_area == 'italia_nol') {
       var dati = $.datiRegioni.slice(),
           labels = $.labelsDati(),
           variabili = Object.assign({}, $.variabili.it_vars);
@@ -185,7 +185,7 @@ $(function(){
   $.labelsDati = function(dati = false){
     if (!dati) {
       dati = 'datiRegioni';
-      if ($.viz_area == 'italia' && $.viz_indici == 'province') dati = 'datiProvince';
+      if (($.viz_area == 'italia' || $.viz_area == 'italia_nol')&& $.viz_indici == 'province') dati = 'datiProvince';
       if ($.viz_area == 'mondo') dati = 'datiMondoConf';
       dati = $[dati].slice();
     }

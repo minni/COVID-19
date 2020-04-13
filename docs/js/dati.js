@@ -1,5 +1,10 @@
 $(function(){
   $.caricaPopolazione = function(on_complete){
+    if ($.viz_area == 'italia') return on_complete();
+    if ($.viz_area == 'italia_nol') {
+      $.popolazione.italia = $.popolazione.italia - $.popolazione['3'];
+      return on_complete();
+    }
     var json_url = "https://raw.githubusercontent.com/samayo/country-json/master/src/country-by-population.json";
     $.getJSON(json_url, function(dati_grezzi) {
       var mondo = 0;
@@ -121,7 +126,7 @@ $(function(){
   };
 
   $.parseDatiMondoGrezzi = function(dati_grezzi, chiave){
-    console.log("Carico", chiave);
+    // console.log("Carico", chiave);
     if (!$.datiMondoConf) $.datiMondoConf = {};
       
     var result  = Object.assign({}, $.datiMondoConf);
@@ -155,9 +160,16 @@ $(function(){
   };
 
   $.caricaDati = function(){
-    if ($.viz_area == 'italia') {
+    if ($.viz_area == 'italia' || $.viz_area == 'italia_nol') {
       if ($.viz_indici == 'province' && !$.datiProvince) return $.caricaDatiProvince();
       if (!$.datiRegioni) return $.caricaDatiRegioni();
+      if ($.viz_area == 'italia_nol') {
+        $('a[href*="regione=3"').hide();
+        $.datiRegioni = $.datiRegioni.filter(function(row){
+          if (row.codice_regione == 3) return false;
+          return true;
+        });
+      }
     }
     if ($.viz_area == 'mondo') {
       if (!$.datiMondoConf) $.datiMondoConf = [];
