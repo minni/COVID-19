@@ -3,5 +3,7 @@ module.exports = {
 
   pwa: {
     name: 'vaccini covid'
-  }
+  },
+
+  publicPath: '/vaccini/'
 }

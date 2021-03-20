@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.05e274d2130381730fd45c5731990c79.js"
+  "/vaccini/precache-manifest.0f579b252d9bbc7b4ae95cfeb90b1380.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "vaccini"});
