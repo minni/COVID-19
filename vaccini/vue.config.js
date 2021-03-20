@@ -5,5 +5,5 @@ module.exports = {
     name: 'vaccini covid'
   },
 
-  publicPath: '/vaccini/'
+  publicPath: '/COVID-19/vaccini/'
 }
