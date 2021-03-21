@@ -1,14 +1,22 @@
 <template>
   <div>
     <div v-b-toggle.scelte_consegne
-      style="padding-top: 10px; padding-bottom: 10px;">
-      <b-badge pill variant="primary">{{periodoH}}</b-badge>
-      &nbsp;&nbsp;
-      <b-badge pill variant="info">{{manipH}}</b-badge>
-      &nbsp;&nbsp;
-      <b-badge pill variant="secondary">{{group_byH}}</b-badge>
-      &nbsp;&nbsp;
-      <b-badge pill variant="dark">{{regioneH}}</b-badge>
+      style="padding-top: 10px; padding-bottom: 10px; min-height: 45px;">
+
+      <span class="when-opened" style="float: left; padding-left: 20px;">
+        &nbsp;&nbsp;
+        Personalizza
+      </span>
+      <span class="when-closed" style="float: left; padding-left: 20px;">
+        &nbsp;&nbsp;
+        <b-badge pill variant="primary">{{periodoH}}</b-badge>
+        &nbsp;&nbsp;
+        <b-badge pill variant="info">{{manipH}}</b-badge>
+        &nbsp;&nbsp;
+        <b-badge pill variant="secondary">{{group_byH}}</b-badge>
+        &nbsp;&nbsp;
+        <b-badge pill variant="dark">{{regioneH}}</b-badge>
+      </span>
       
       <!-- b-badge pill variant="success">Success</b-badge>
       <b-badge pill variant="danger">Danger</b-badge>
@@ -16,7 +24,8 @@
       <b-badge pill variant="light">Light</b-badge -->
 
       <span class="when-opened">
-        <b-icon icon="chevron-down" aria-hidden="true"></b-icon>
+        <!-- b-icon icon="chevron-down" aria-hidden="true"></b-icon -->
+        <b-icon icon="x" aria-hidden="true"></b-icon>
       </span>
       <span class="when-closed">
         <b-icon icon="chevron-right" aria-hidden="true"></b-icon>
