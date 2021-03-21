@@ -1,11 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <!-- router-link to="/">Home</router-link -->
+    
+    <b-navbar toggleable type="dark" variant="dark">
+      <b-navbar-brand href="/">{{currentRouteName}}</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item to="/consegne">Consegne</b-nav-item>
+          <b-nav-item to="/vaccinazioni">Vaccinazioni</b-nav-item>
+          <b-nav-item to="/about">About</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+
+    <!-- div id="nav">
       <router-link to="/consegne">Consegne</router-link> |
       <router-link to="/vaccinazioni">Vaccinazioni</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
+    </div -->
+
     <router-view/>
   </div>
 </template>
@@ -17,6 +30,11 @@ export default {
     // let root = this.myprop || '/consegne'
     let root = '/consegne';
     this.$router.push({ path: root });
+  },
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
+    }
   }
 }
 </script>
