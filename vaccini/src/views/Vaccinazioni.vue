@@ -5,7 +5,7 @@
         zon-cancel="onCancel"
         :is-full-page="true"></loading>
     <ScelteVaccinazioni v-model="scelte" />
-    TOTALE: {{totale | toNumber}}
+    <br />
     <Grafico :chart-data="datiGrafico" :options="options" />
   </div>
 </template>

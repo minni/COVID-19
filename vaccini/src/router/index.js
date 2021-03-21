@@ -16,6 +16,11 @@ const routes = [
     component: () => import('../views/Vaccinazioni.vue')
   },
   {
+    path: '/mondo',
+    name: 'Mondo',
+    component: () => import('../views/Mondo.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

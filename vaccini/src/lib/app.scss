@@ -24,7 +24,9 @@ nav.navbar {
   float: right;
   margin-right: 20px;
 }
-#scelte_consegne, #scelte_vaccinazioni {
+#scelte_consegne,
+#scelte_vaccinazioni,
+#scelte_mondo {
   div.input-group-text {
     min-width: 120px;
   }
@@ -40,13 +42,13 @@ nav.navbar {
       background-color: #17a2b8;
     }
   }
-  .group_by {
+  .group_by, .paese {
     div.input-group-text {
       color: #fff;
       background-color: #6c757d;
     }
   }
-  .regione {
+  .regione, .prov {
     div.input-group-text {
       color: #fff;
       background-color: #343a40;
