@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <!-- router-link to="/">Home</router-link -->
       <router-link to="/consegne">Consegne</router-link> |
       <router-link to="/vaccinazioni">Vaccinazioni</router-link> |
       <router-link to="/about">About</router-link>
@@ -9,6 +9,17 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  mounted: function(){
+    // let root = this.myprop || '/consegne'
+    let root = '/consegne';
+    this.$router.push({ path: root });
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
