@@ -1,18 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6679cfec0890140460dc",
+    "revision": "14c83adb6fa9156f52fb",
     "url": "/COVID-19/vaccini/css/app.46551f08.css"
   },
   {
-    "revision": "c14cf0534551a6f66034",
-    "url": "/COVID-19/vaccini/css/chunk-e96d6464.02ec4705.css"
+    "revision": "23c176daeb2768d7bb67",
+    "url": "/COVID-19/vaccini/css/chunk-0d699d3c.02ec4705.css"
   },
   {
     "revision": "82b9c7a5a3f405032b1db71a25f67021",
     "url": "/COVID-19/vaccini/img/logo.82b9c7a5.png"
   },
   {
-    "revision": "23a385c6d95360d3acca9746ced9262d",
+    "revision": "8945c929d54be9497c3a290410093cc0",
     "url": "/COVID-19/vaccini/index.html"
   },
   {
@@ -20,12 +20,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/COVID-19/vaccini/js/about.27218c98.js"
   },
   {
-    "revision": "6679cfec0890140460dc",
-    "url": "/COVID-19/vaccini/js/app.7343509a.js"
+    "revision": "14c83adb6fa9156f52fb",
+    "url": "/COVID-19/vaccini/js/app.91247954.js"
   },
   {
-    "revision": "c14cf0534551a6f66034",
-    "url": "/COVID-19/vaccini/js/chunk-e96d6464.dcf4c51c.js"
+    "revision": "96448c0862e575dcf858",
+    "url": "/COVID-19/vaccini/js/chunk-02bb66b0.5be8c604.js"
+  },
+  {
+    "revision": "23c176daeb2768d7bb67",
+    "url": "/COVID-19/vaccini/js/chunk-0d699d3c.ae0dbda5.js"
+  },
+  {
+    "revision": "9894cb3d2c7a49c44190",
+    "url": "/COVID-19/vaccini/js/chunk-2d0b39ed.ba6d53cb.js"
   },
   {
     "revision": "cd57c3524e30ac8e3365",
