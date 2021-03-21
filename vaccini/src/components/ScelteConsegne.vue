@@ -10,10 +10,10 @@
 
     <br />
 
-    Grafico {{value.incr}}
-    <select v-model="value.incr">
-      <option :value="false">Giorno per giorno</option>
-      <option :value="true">Incrementale</option>
+    Grafico {{value.manip}}
+    <select v-model="value.manip">
+      <option value="">Giorno per giorno</option>
+      <option value="incremental">Incrementale</option>
     </select>
 
     <br />
