@@ -33,7 +33,8 @@ export default {
       scelte: {
         periodo: 'last_180',
         group_by: 'tot',
-        manip: '',
+        manip: 'incremental',
+        regione: 'all'
       },
       totale: 0,
       options: dafaultChartOptions,
@@ -41,14 +42,20 @@ export default {
   },
   computed: {
     datiGrafico: function(){
-      var dati = this.datiPeriodo(this.scelte.periodo);
-      if (this.scelte.group_by == 'reg') return this.datiRegione(dati);
-      if (this.scelte.group_by == 'for') return this.datiFornitore(dati);
-      if (this.scelte.group_by == 'ses') return this.datiSesso(dati);
-      if (this.scelte.group_by == 'fas') return this.datiFascia(dati);
-      if (this.scelte.group_by == 'dos') return this.datiDose(dati);
-      if (this.scelte.group_by == 'cat') return this.datiCategoria(dati);
-      return this.datiTutto(dati);
+      var el = this;
+      var dati = el.datiPeriodo(el.scelte.periodo);
+      if (el.scelte.regione != 'all') {
+        dati = dati.filter((d)=>{
+          return d.nome_area == el.scelte.regione
+        });
+      }
+      if (el.scelte.group_by == 'reg') return el.datiRegione(dati);
+      if (el.scelte.group_by == 'for') return el.datiFornitore(dati);
+      if (el.scelte.group_by == 'ses') return el.datiSesso(dati);
+      if (el.scelte.group_by == 'fas') return el.datiFascia(dati);
+      if (el.scelte.group_by == 'dos') return el.datiDose(dati);
+      if (el.scelte.group_by == 'cat') return el.datiCategoria(dati);
+      return el.datiTutto(dati);
     }
   },
   created: function() {

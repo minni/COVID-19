@@ -33,7 +33,8 @@ export default {
       scelte: {
         periodo: 'last_180',
         group_by: 'tot',
-        manip: '',
+        manip: 'incremental',
+        regione: 'all'
       },
       totale: 0,
       options: dafaultChartOptions,
@@ -41,10 +42,16 @@ export default {
   },
   computed: {
     datiGrafico: function(){
-      var dati = this.datiPeriodo(this.scelte.periodo);
-      if (this.scelte.group_by == 'reg') return this.datiRegione(dati);
-      if (this.scelte.group_by == 'for') return this.datiFornitore(dati);
-      return this.datiTutto(dati);
+      var el = this;
+      var dati = el.datiPeriodo(el.scelte.periodo);
+      if (el.scelte.regione != 'all') {
+        dati = dati.filter((d)=>{
+          return d.nome_area == el.scelte.regione
+        });
+      }
+      if (el.scelte.group_by == 'reg') return el.datiRegione(dati);
+      if (el.scelte.group_by == 'for') return el.datiFornitore(dati);
+      return el.datiTutto(dati);
     }
   },
   created: function() {
@@ -82,6 +89,8 @@ export default {
       dati.forEach(function(d){
         if (regioni.indexOf(d.nome_area) < 0) regioni.push(d.nome_area);
       });
+      // window.regioni = regioni;
+      // console.log(regioni);
       var mappati = dati.reduce(function(acc, d){
         var data = dataDMY(d.data_consegna);
         if (!acc[data]) acc[data] = {};
