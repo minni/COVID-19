@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/COVID-19/vaccini/precache-manifest.d8e350f985bbbb9f2e783ae3754245fc.js"
+  "/COVID-19/vaccini/precache-manifest.b8ebde5d678c3042f130626b66632c6b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "vaccini"});
