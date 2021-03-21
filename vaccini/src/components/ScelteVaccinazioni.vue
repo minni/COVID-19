@@ -1,5 +1,5 @@
 <template>
-  <div class="scelte_consegne">
+  <div class="scelte_vaccinazioni">
     SCELTE:
     Periodo
     <select v-model="value.periodo">
@@ -23,13 +23,17 @@
       <option value="tot">Totale</option>
       <option value="reg">Regione</option>
       <option value="for">Fornitore</option>
+      <option value="ses">Sesso</option>
+      <option value="fas">Fascia Anagrafica</option>
+      <option value="cat">Categorie</option>
+      <option value="dos">Prima / Seconda dose</option>
     </select>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ScelteConsegne',
+  name: 'ScelteVaccinazioni',
   props: ['value']
 }
 </script>

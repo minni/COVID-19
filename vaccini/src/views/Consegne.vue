@@ -62,7 +62,6 @@ export default {
         totale += d.numero_dosi;
         return acc;
       }, {});
-      window.consegnex = mappati;
       el.totale = totale;
       return {
         labels: Object.keys(mappati),

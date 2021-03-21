@@ -15,6 +15,14 @@ var caricaConsegne = function(onComplete){
   );
 };
 
+var caricaVaccinazioni = function(onComplete){
+  fetchJson(
+    "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-latest.json",
+    'vaccinazioni',
+    onComplete
+  );
+};
+
 export {
-  caricaConsegne
+  caricaConsegne, caricaVaccinazioni
 };
