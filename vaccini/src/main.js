@@ -21,8 +21,9 @@ Vue.filter('toNumber', function (value) {
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-import { NavbarPlugin } from 'bootstrap-vue'
+import { NavbarPlugin, CollapsePlugin } from 'bootstrap-vue'
 Vue.use(NavbarPlugin)
+Vue.use(CollapsePlugin)
 
 new Vue({
   router,

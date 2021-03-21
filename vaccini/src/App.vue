@@ -18,7 +18,7 @@
       <router-link to="/vaccinazioni">Vaccinazioni</router-link> |
       <router-link to="/about">About</router-link>
     </div -->
-
+    
     <router-view/>
   </div>
 </template>

@@ -5,7 +5,8 @@
         zon-cancel="onCancel"
         :is-full-page="true"></loading>
     <ScelteConsegne v-model="scelte" />
-    TOTALE: {{totale | toNumber}}
+    <!-- TOTALE: {{totale | toNumber}} -->
+    <br />
     <Grafico :chart-data="datiGrafico" :options="options" />
   </div>
 </template>

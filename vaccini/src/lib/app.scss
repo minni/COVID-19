@@ -15,4 +15,42 @@ nav.navbar {
     }
   }
 }
+.collapsed > .when-opened,
+:not(.collapsed) > .when-closed {
+  display: none;
+}
+.collapsed > .when-closed,
+.not-collapsed > .when-opened {
+  float: right;
+  margin-right: 20px;
+}
+#scelte_consegne {
+  div.input-group-text {
+    min-width: 120px;
+  }
+  .periodo {
+    div.input-group-text {
+      color: #fff;
+      background-color: #007bff;
+    }
+  }
+  .grafico {
+    div.input-group-text {
+      color: #fff;
+      background-color: #17a2b8;
+    }
+  }
+  .group_by {
+    div.input-group-text {
+      color: #fff;
+      background-color: #6c757d;
+    }
+  }
+  .regione {
+    div.input-group-text {
+      color: #fff;
+      background-color: #343a40;
+    }
+  }
+}
 
