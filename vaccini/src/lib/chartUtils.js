@@ -19,11 +19,18 @@ var dafaultChartOptions = {
   tooltips: {
     mode: 'index',
     intersect: true,
+    itemSort: function(a, b) {
+      // console.log(a, b);
+      if (parseInt(a.value) > parseInt(b.value)) return -1;
+      if (parseInt(a.value) < parseInt(b.value)) return 1;
+      return 0;
+    },
     callbacks: {
-      label: function(tooltipItem) {
-        // console.log(tooltipItem);
-        return ' ' + numFmt.format(tooltipItem.yLabel / 1000) +'k';
-      }
+      label: function(tooltipItem, data) {
+        var legenda = data.datasets[tooltipItem.datasetIndex].label;
+        // console.log(tooltipItem, data, legenda);
+        return ` ${numFmt.format(tooltipItem.yLabel / 1000)}k ${legenda}`;
+      },
     }
   },
   // hover: { mode: 'nearest', intersect: true },
